@@ -1,31 +1,31 @@
 package com.yusufulgen.starter.controller;
 
 import com.yusufulgen.starter.entity.Skill;
-import com.yusufulgen.starter.repository.SkillRepository;
+import com.yusufulgen.starter.service.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/skills")
+@RequestMapping("/api/v1/skills")
 @CrossOrigin(origins = "*")
 public class SkillController {
 
     @Autowired
-    private SkillRepository skillRepository;
+    private SkillService skillService;
 
     @GetMapping
     public List<Skill> getAllSkills() {
-        return skillRepository.findAll();
+        return skillService.getAllSkills();
     }
 
     @PostMapping
     public Skill createSkill(@RequestBody Skill skill) {
-        return skillRepository.save(skill);
+        return skillService.saveSkill(skill);
     }
-    
+
     @DeleteMapping("/{id}")
     public void deleteSkill(@PathVariable Long id) {
-        skillRepository.deleteById(id);
+        skillService.deleteSkill(id);
     }
 }

@@ -1,31 +1,31 @@
 package com.yusufulgen.starter.controller;
 
 import com.yusufulgen.starter.entity.Education;
-import com.yusufulgen.starter.repository.EducationRepository;
+import com.yusufulgen.starter.service.EducationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/educations")
+@RequestMapping("/api/v1/educations")
 @CrossOrigin(origins = "*")
 public class EducationController {
 
     @Autowired
-    private EducationRepository educationRepository;
+    private EducationService educationService;
 
     @GetMapping
     public List<Education> getAllEducations() {
-        return educationRepository.findAll();
+        return educationService.getAllEducations();
     }
 
     @PostMapping
     public Education createEducation(@RequestBody Education education) {
-        return educationRepository.save(education);
+        return educationService.saveEducation(education);
     }
 
     @DeleteMapping("/{id}")
     public void deleteEducation(@PathVariable Long id) {
-        educationRepository.deleteById(id);
+        educationService.deleteEducation(id);
     }
 }
