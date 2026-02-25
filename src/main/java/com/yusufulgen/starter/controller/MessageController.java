@@ -1,7 +1,9 @@
 package com.yusufulgen.starter.controller;
 
-import com.yusufulgen.starter.entity.Message;
+import com.yusufulgen.starter.dto.request.MessageRequest;
+import com.yusufulgen.starter.dto.response.MessageResponse;
 import com.yusufulgen.starter.service.MessageService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -15,13 +17,14 @@ public class MessageController {
     private MessageService messageService;
 
     @GetMapping
-    public List<Message> getAllMessages() {
+    public List<MessageResponse> getAllMessages() {
         return messageService.getAllMessages();
     }
 
+    // Parametre olarak Entity (Message) değil, Kurye (MessageRequest) alıyoruz!
     @PostMapping
-    public Message sendMessage(@RequestBody Message message) {
-        return messageService.saveMessage(message);
+    public MessageResponse sendMessage(@Valid @RequestBody MessageRequest request) {
+        return messageService.saveMessage(request);
     }
 
     @DeleteMapping("/{id}")
