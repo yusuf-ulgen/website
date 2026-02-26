@@ -1,8 +1,11 @@
 package com.yusufulgen.starter.controller;
 
+import com.yusufulgen.starter.dto.response.ApiResponse;
 import com.yusufulgen.starter.entity.Project;
+import com.yusufulgen.starter.service.AuditLogService;
 import com.yusufulgen.starter.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -12,20 +15,27 @@ import java.util.List;
 public class ProjectController {
 
     @Autowired
-    private ProjectService projectService; // Repository YERİNE artık Service'i çağırıyoruz!
+    private ProjectService projectService;
+
+    @Autowired
+    private AuditLogService auditLogService;
 
     @GetMapping
-    public List<Project> getAllProjects() {
-        return projectService.getAllProjects(); // İşlemi Service'e devrettik
+    public ResponseEntity<ApiResponse<List<Project>>> getAllProjects() {
+        return ResponseEntity.ok(ApiResponse.success(projectService.getAllProjects()));
     }
 
     @PostMapping
-    public Project createProject(@RequestBody Project project) {
-        return projectService.saveProject(project); // İşlemi Service'e devrettik
+    public ResponseEntity<ApiResponse<Project>> createProject(@RequestBody Project project) {
+        Project savedProject = projectService.saveProject(project);
+        auditLogService.log("PROJECT_CREATED", "Yeni proje eklendi: " + savedProject.getTitle());
+        return ResponseEntity.ok(ApiResponse.success(savedProject));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProject(@PathVariable Long id) {
-        projectService.deleteProject(id); // İşlemi Service'e devrettik
+    public ResponseEntity<ApiResponse<String>> deleteProject(@PathVariable Long id) {
+        projectService.deleteProject(id);
+        auditLogService.log("PROJECT_DELETED", "Proje silindi, ID: " + id);
+        return ResponseEntity.ok(ApiResponse.success("Proje başarıyla silindi."));
     }
 }

@@ -1,7 +1,10 @@
 package com.yusufulgen.starter.controller;
 
 import com.yusufulgen.starter.dto.request.LoginRequest;
+import com.yusufulgen.starter.dto.response.ApiResponse;
+import com.yusufulgen.starter.service.AuditLogService;
 import com.yusufulgen.starter.service.JwtUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,21 +22,23 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private AuditLogService auditLogService;
+
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<ApiResponse<String>> login(@RequestBody LoginRequest loginRequest) {
         try {
-            // Kimlik doğrulaması yap
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
             );
             
-            // Başarılıysa token üret
             String token = jwtUtil.generateToken(loginRequest.getUsername());
-            return ResponseEntity.ok(token);
+            auditLogService.log("LOGIN_SUCCESS", "Kullanıcı başarıyla giriş yaptı: " + loginRequest.getUsername());
             
+            return ResponseEntity.ok(ApiResponse.success(token));
         } catch (Exception e) {
-            // Hatalıysa 401 Unauthorized dön
-            return ResponseEntity.status(401).body("Hatalı kullanıcı adı veya şifre!");
+            auditLogService.log("LOGIN_FAILED", "Hatalı giriş denemesi: " + loginRequest.getUsername());
+            return ResponseEntity.status(401).body(ApiResponse.error(List.of("Hatalı kullanıcı adı veya şifre!")));
         }
     }
 }

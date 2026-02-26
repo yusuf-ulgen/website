@@ -10,6 +10,9 @@ import java.util.List;
 public class ProjectService {
 
     @Autowired
+    private AuditLogService auditLogService;
+
+    @Autowired
     private ProjectRepository projectRepository;
 
     // Tüm projeleri getir
@@ -25,5 +28,6 @@ public class ProjectService {
     // Proje sil
     public void deleteProject(Long id) {
         projectRepository.deleteById(id);
+        auditLogService.log("DELETE_PROJECT", "ID: " + id + " olan proje silindi.");
     }
 }
