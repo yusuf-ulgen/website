@@ -16,10 +16,12 @@ public class SkillService {
         return skillRepository.findAll();
     }
 
+    @SuppressWarnings("null")
     public Skill saveSkill(Skill skill) {
         return skillRepository.save(skill);
     }
 
+    @SuppressWarnings("null")
     public void deleteSkill(Long id) {
         skillRepository.deleteById(id);
     }

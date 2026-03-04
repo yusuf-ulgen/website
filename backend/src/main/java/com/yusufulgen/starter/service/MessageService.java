@@ -51,6 +51,7 @@ public class MessageService {
         return convertToResponse(savedMessage);
     }
 
+    @SuppressWarnings("null")
     public void deleteMessage(Long id) {
         messageRepository.deleteById(id);
     }

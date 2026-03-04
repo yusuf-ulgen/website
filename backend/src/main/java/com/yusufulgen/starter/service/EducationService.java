@@ -16,10 +16,12 @@ public class EducationService {
         return educationRepository.findAll();
     }
 
+    @SuppressWarnings("null")
     public Education saveEducation(Education education) {
         return educationRepository.save(education);
     }
 
+    @SuppressWarnings("null")
     public void deleteEducation(Long id) {
         educationRepository.deleteById(id);
     }

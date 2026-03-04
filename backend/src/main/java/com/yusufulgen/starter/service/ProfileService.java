@@ -16,6 +16,7 @@ public class ProfileService {
         return profileRepository.findAll();
     }
 
+    @SuppressWarnings("null")
     public Profile saveProfile(Profile profile) {
         return profileRepository.save(profile);
     }

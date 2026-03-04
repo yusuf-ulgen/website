@@ -21,11 +21,13 @@ public class ProjectService {
     }
 
     // Yeni proje kaydet
+    @SuppressWarnings("null")
     public Project saveProject(Project project) {
         return projectRepository.save(project);
     }
 
     // Proje sil
+    @SuppressWarnings("null")
     public void deleteProject(Long id) {
         projectRepository.deleteById(id);
         auditLogService.log("DELETE_PROJECT", "ID: " + id + " olan proje silindi.");
