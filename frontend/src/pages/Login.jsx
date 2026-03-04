@@ -1,9 +1,83 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  // Login.jsx içindeki handleLogin fonksiyonunu bununla tazele
+    const handleLogin = async (e) => {
+    e.preventDefault();
+    setError('');
+    try {
+      const response = await fetch('http://localhost:8081/api/v1/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }), // LoginRequest yapısıyla tam uyumlu
+      });
+
+      const result = await response.json();
+
+      if (result.success && result.data) {
+        // DİKKAT: Senin backendin token'ı doğrudan 'data' olarak döndürüyor
+        localStorage.setItem('token', result.data); 
+        navigate('/admin/dashboard'); 
+      } else {
+        // Backend'den gelen hata listesinin ilk elemanını göster
+        const errorMessage = result.errors && result.errors.length > 0 
+          ? result.errors[0] 
+          : 'Giriş başarısız! Bilgilerinizi kontrol edin.';
+        setError(errorMessage);
+      }
+    } catch (err) {
+      console.error("Giriş hatası:", err);
+      setError('Sunucuya bağlanılamadı! Backend portunu ve CORS ayarlarını kontrol edin.');
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-slate-800 text-white flex items-center justify-center">
-      <h1 className="text-4xl font-bold">Admin Giriş Ekranı</h1>
+    <div className="min-h-screen bg-[#050208] flex items-center justify-center px-6 relative overflow-hidden font-sans">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#6b21a8] rounded-full blur-[150px] opacity-[0.10] pointer-events-none"></div>
+
+      <div className="w-full max-w-md bg-white/[0.02] border border-white/10 backdrop-blur-2xl p-10 rounded-3xl z-10 shadow-2xl animate-[fadeInUp_0.5s_ease-out]">
+        <h2 className="text-3xl font-black text-white tracking-tighter mb-2 text-center">YÜ.</h2>
+        <p className="text-[#8c8496] text-sm text-center mb-8 font-light uppercase tracking-widest">Yönetici Paneli</p>
+
+        {error && <div className="bg-red-500/10 border border-red-500/20 text-red-500 text-xs py-3 px-4 rounded-xl mb-6 text-center">{error}</div>}
+
+        <form onSubmit={handleLogin} className="space-y-5">
+          <div>
+            <label className="text-xs text-[#7a7085] uppercase tracking-widest mb-2 block font-mono">Kullanıcı Adı</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full bg-white/5 border border-white/10 rounded-xl py-3.5 px-5 text-white focus:outline-none focus:border-[#8b5cf6]/50 transition-all text-sm"
+              placeholder="Kullanıcı adınız"
+              required
+            />
+          </div>
+          <div>
+            <label className="text-xs text-[#7a7085] uppercase tracking-widest mb-2 block font-mono">Şifre</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full bg-white/5 border border-white/10 rounded-xl py-3.5 px-5 text-white focus:outline-none focus:border-[#8b5cf6]/50 transition-all text-sm"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-white text-black font-bold py-4 rounded-xl hover:bg-gray-200 transition-all transform hover:-translate-y-1 mt-4 text-sm"
+          >
+            Giriş Yap
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

@@ -16,7 +16,13 @@ public class Skill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name; // Yetenek adı (Örn: "Java", "Spring Boot", "React")
+    private String name;
 
-    private Integer percentage; // Yüzdelik seviye (Örn: 85) - Barda veya grafikte göstermek için harika olur
+    @Column(nullable = false)
+    private String category;
+
+    @Column(name = "order_index", nullable = false)
+    private Integer orderIndex = 0;
+
+    private Integer percentage;
 }

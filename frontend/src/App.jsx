@@ -1,25 +1,18 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
-// Sayfalarımızı içeri aktarıyoruz (Import)
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
-        {/* Herkese açık ana sayfamız */}
         <Route path="/" element={<Home />} />
-        
-        {/* Senin giriş yapacağın sayfa */}
         <Route path="/login" element={<Login />} />
-        
-        {/* Senin yönetim panelin */}
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/admin/dashboard" element={<Dashboard />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 
