@@ -28,4 +28,9 @@ public class Project {
     private String githubUrl; // GitHub kaynak kod linki
 
     private String liveUrl; // Varsa canlı site linki
+
+    private String titleEn; // İngilizce Başlık
+    
+    @Column(columnDefinition = "TEXT")
+    private String descriptionEn; // İngilizce Açıklama
 }

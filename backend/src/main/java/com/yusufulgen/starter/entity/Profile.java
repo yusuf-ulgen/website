@@ -25,6 +25,11 @@ public class Profile {
 
     private String skills; // Yeteneklerin (Örn: "Java, Spring Boot, React, PostgreSQL")
 
+    private String titleEn; // İngilizce Unvan
+    
+    @Column(columnDefinition = "TEXT")
+    private String bioEn; // İngilizce Hakkımda Metni
+
     // Sosyal medya ve iletişim linklerin
     private String email;
     private String githubLink;
