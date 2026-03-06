@@ -1,0 +1,139 @@
+// Merkezi API Servisi
+// Tüm backend istekleri bu dosya aracılığıyla yapılır.
+// .env dosyasındaki VITE_API_URL üretim/geliştirme ortamında otomatik değişir.
+
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8081';
+
+// --- Genel yardımcı ---
+const getAuthHeaders = () => {
+    const token = localStorage.getItem('token');
+    return {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }),
+    };
+};
+
+const handleResponse = async (res) => {
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.errors?.[0] || `HTTP ${res.status}`);
+    return data;
+};
+
+// --- AUTH ---
+export const login = async (username, password) => {
+    const res = await fetch(`${BASE_URL}/api/v1/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+    });
+    return handleResponse(res);
+};
+
+// --- PROFILE ---
+export const getProfile = async () => {
+    const res = await fetch(`${BASE_URL}/api/v1/profile`);
+    return handleResponse(res);
+};
+
+export const saveProfile = async (profile) => {
+    const res = await fetch(`${BASE_URL}/api/v1/profile`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(profile),
+    });
+    return handleResponse(res);
+};
+
+// --- PROJECTS ---
+export const getProjects = async () => {
+    const res = await fetch(`${BASE_URL}/api/v1/projects`);
+    return handleResponse(res);
+};
+
+export const createProject = async (project) => {
+    const res = await fetch(`${BASE_URL}/api/v1/projects`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(project),
+    });
+    return handleResponse(res);
+};
+
+export const deleteProject = async (id) => {
+    const res = await fetch(`${BASE_URL}/api/v1/projects/${id}`, {
+        method: 'DELETE',
+        headers: getAuthHeaders(),
+    });
+    return handleResponse(res);
+};
+
+// --- SKILLS ---
+export const getSkills = async () => {
+    const res = await fetch(`${BASE_URL}/api/v1/skills`);
+    return handleResponse(res);
+};
+
+export const createSkill = async (skill) => {
+    const res = await fetch(`${BASE_URL}/api/v1/skills`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(skill),
+    });
+    return handleResponse(res);
+};
+
+export const deleteSkill = async (id) => {
+    const res = await fetch(`${BASE_URL}/api/v1/skills/${id}`, {
+        method: 'DELETE',
+        headers: getAuthHeaders(),
+    });
+    return handleResponse(res);
+};
+
+// --- MESSAGES ---
+export const getMessages = async () => {
+    const res = await fetch(`${BASE_URL}/api/v1/messages`, {
+        headers: getAuthHeaders(),
+    });
+    return handleResponse(res);
+};
+
+export const sendMessage = async (messageRequest) => {
+    const res = await fetch(`${BASE_URL}/api/v1/messages`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(messageRequest),
+    });
+    return handleResponse(res);
+};
+
+export const deleteMessage = async (id) => {
+    const res = await fetch(`${BASE_URL}/api/v1/messages/${id}`, {
+        method: 'DELETE',
+        headers: getAuthHeaders(),
+    });
+    return handleResponse(res);
+};
+
+// --- EDUCATIONS ---
+export const getEducations = async () => {
+    const res = await fetch(`${BASE_URL}/api/v1/educations`);
+    return handleResponse(res);
+};
+
+export const createEducation = async (education) => {
+    const res = await fetch(`${BASE_URL}/api/v1/educations`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(education),
+    });
+    return handleResponse(res);
+};
+
+export const deleteEducation = async (id) => {
+    const res = await fetch(`${BASE_URL}/api/v1/educations/${id}`, {
+        method: 'DELETE',
+        headers: getAuthHeaders(),
+    });
+    return handleResponse(res);
+};

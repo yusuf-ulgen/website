@@ -1,39 +1,34 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { login } from '../services/api';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Login.jsx içindeki handleLogin fonksiyonunu bununla tazele
-    const handleLogin = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
+    setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:8081/api/v1/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }), // LoginRequest yapısıyla tam uyumlu
-      });
-
-      const result = await response.json();
-
+      const result = await login(username, password);
       if (result.success && result.data) {
-        // DİKKAT: Senin backendin token'ı doğrudan 'data' olarak döndürüyor
-        localStorage.setItem('token', result.data); 
-        navigate('/admin/dashboard'); 
+        localStorage.setItem('token', result.data);
+        navigate('/admin/dashboard');
       } else {
-        // Backend'den gelen hata listesinin ilk elemanını göster
-        const errorMessage = result.errors && result.errors.length > 0 
-          ? result.errors[0] 
+        const errorMessage = result.errors && result.errors.length > 0
+          ? result.errors[0]
           : 'Giriş başarısız! Bilgilerinizi kontrol edin.';
         setError(errorMessage);
       }
     } catch (err) {
-      console.error("Giriş hatası:", err);
-      setError('Sunucuya bağlanılamadı! Backend portunu ve CORS ayarlarını kontrol edin.');
+      console.error('Giriş hatası:', err);
+      setError(err.message || 'Sunucuya bağlanılamadı! Backend çalışıyor mu?');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -57,6 +52,7 @@ function Login() {
               className="w-full bg-white/5 border border-white/10 rounded-xl py-3.5 px-5 text-white focus:outline-none focus:border-[#8b5cf6]/50 transition-all text-sm"
               placeholder="Kullanıcı adınız"
               required
+              disabled={isLoading}
             />
           </div>
           <div>
@@ -68,13 +64,15 @@ function Login() {
               className="w-full bg-white/5 border border-white/10 rounded-xl py-3.5 px-5 text-white focus:outline-none focus:border-[#8b5cf6]/50 transition-all text-sm"
               placeholder="••••••••"
               required
+              disabled={isLoading}
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-white text-black font-bold py-4 rounded-xl hover:bg-gray-200 transition-all transform hover:-translate-y-1 mt-4 text-sm"
+            disabled={isLoading}
+            className="w-full bg-white text-black font-bold py-4 rounded-xl hover:bg-gray-200 transition-all transform hover:-translate-y-1 mt-4 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Giriş Yap
+            {isLoading ? 'Giriş Yapılıyor...' : 'Giriş Yap'}
           </button>
         </form>
       </div>
