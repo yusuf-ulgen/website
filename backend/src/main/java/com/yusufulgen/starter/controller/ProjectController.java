@@ -32,6 +32,13 @@ public class ProjectController {
         return ResponseEntity.ok(ApiResponse.success(savedProject));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<Project>> updateProject(@PathVariable Long id, @RequestBody Project project) {
+        Project updatedProject = projectService.updateProject(id, project);
+        auditLogService.log("PROJECT_UPDATED", "Proje güncellendi: " + updatedProject.getTitle());
+        return ResponseEntity.ok(ApiResponse.success(updatedProject));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<String>> deleteProject(@PathVariable Long id) {
         projectService.deleteProject(id);

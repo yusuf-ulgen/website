@@ -4,10 +4,10 @@ import { getProjects, getSkills, getProfile, getEducations, sendMessage } from '
 
 const technologies = [
   { name: 'HTML5', icon: 'https://cdn.simpleicons.org/html5/E34F26' },
-  { name: 'CSS3', icon: 'https://cdn.simpleicons.org/css3/1572B6' },
+  { name: 'CSS3', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg' },
   { name: 'JavaScript', icon: 'https://cdn.simpleicons.org/javascript/F7DF1E' },
   { name: 'C', icon: 'https://cdn.simpleicons.org/c/A8B9CC' },
-  { name: 'C#', icon: 'https://cdn.simpleicons.org/csharp/239120' },
+  { name: 'C#', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg' },
   { name: 'Python', icon: 'https://cdn.simpleicons.org/python/3776AB' },
   { name: 'Java', icon: 'https://cdn.simpleicons.org/openjdk/ffffff' },
   { name: 'Kotlin', icon: 'https://cdn.simpleicons.org/kotlin/7F52FF' },
@@ -36,22 +36,22 @@ const projectMarqueeItems = [
 const translations = {
   TR: {
     nav: { about: "Hakkımda", skills: "Yetenekler", projects: "Projeler", contact: "İletişim ↗" },
-    hero: { explore: "Projelerimi Keşfet", subtitle: "Dijital dünyada iz bırakan çözümler." },
+    hero: { explore: "Projelerimi Keşfet", subtitle: "Dijital dünyada iz bırakan çözümler" },
     about: {
       tag: "Hakkımda",
-      title: "Mantık ve Estetiğin Mükemmel Uyumu.",
+      title: "Mantık ve Estetiğin Mükemmel Uyumu",
       archTitle: "Sistem Mimarisi",
-      archDesc: "Güvenli ve ölçeklenebilir altyapılar.",
+      archDesc: "Güvenli ve ölçeklenebilir altyapılar",
       uiTitle: "UI/UX Tasarım",
-      uiDesc: "Ziyaretçiyi müşteriye dönüştüren etkileşimler."
+      uiDesc: "Ziyaretçiyi müşteriye dönüştüren etkileşimler"
     },
-    skills: { tag: "Yetenekler", title: "Teknoloji Yığınım.", noData: "[Henüz veri yok]" },
-    projects: { title: "Öne Çıkan İşlerim.", inspect: "Detayları İncele →" },
+    skills: { tag: "Yetenekler", title: "Teknoloji Yığınım", noData: "[Henüz veri yok]" },
+    projects: { title: "Öne Çıkan İşlerim", inspect: "Detayları İncele →" },
     contact: {
       tag: "İletişim",
       title1: "Bir fikriniz mi var?",
-      title2: "Birlikte inşa edelim.",
-      desc: "Yeni bir proje başlatmak için doğrudan ulaşabilirsiniz.",
+      title2: "Birlikte inşa edelim",
+      desc: "Yeni bir proje başlatmak için doğrudan ulaşabilirsiniz",
       btn: "Bize Ulaşın",
       rights: "TÜM HAKLARI SAKLIDIR."
     },
@@ -59,22 +59,22 @@ const translations = {
   },
   EN: {
     nav: { about: "About", skills: "Skills", projects: "Projects", contact: "Contact ↗" },
-    hero: { explore: "Explore My Work", subtitle: "Solutions that leave a mark in the digital world." },
+    hero: { explore: "Explore My Work", subtitle: "Solutions that leave a mark in the digital world" },
     about: {
       tag: "About Me",
-      title: "The Perfect Harmony of Logic and Aesthetics.",
+      title: "The Perfect Harmony of Logic and Aesthetics",
       archTitle: "System Architecture",
-      archDesc: "Secure, scalable, and robust infrastructures.",
+      archDesc: "Secure, scalable, and robust infrastructures",
       uiTitle: "UI/UX Design",
-      uiDesc: "Interactions that turn visitors into customers."
+      uiDesc: "Interactions that turn visitors into customers"
     },
-    skills: { tag: "Skills", title: "My Tech Stack.", noData: "[No data yet]" },
-    projects: { title: "Featured Work.", inspect: "View Details →" },
+    skills: { tag: "Skills", title: "My Tech Stack", noData: "[No data yet]" },
+    projects: { title: "Featured Work", inspect: "View Details →" },
     contact: {
       tag: "Contact",
       title1: "Have an idea?",
-      title2: "Let's build it together.",
-      desc: "You can reach out directly to start a new project.",
+      title2: "Let's build it together",
+      desc: "You can reach out directly to start a new project",
       btn: "Contact Us",
       rights: "ALL RIGHTS RESERVED."
     },
@@ -195,21 +195,21 @@ function Home() {
 
   const SectionDivider = () => (
     <div className="relative w-full flex justify-center py-12 opacity-80 pointer-events-none select-none">
-      <div className="absolute top-1/2 w-[70%] max-w-4xl h-[1px] bg-gradient-to-r from-transparent via-[#8b5cf6]/30 to-transparent"></div>
-      <div className="absolute top-1/2 -translate-y-1/2 w-[40%] max-w-xl h-24 bg-[#6b21a8] filter blur-[80px] opacity-[0.12] rounded-full mix-blend-screen"></div>
+      <div className="absolute top-1/2 w-[70%] max-w-4xl h-[1px] bg-gradient-to-r from-transparent via-[#d946ef]/40 to-transparent"></div>
+      <div className="absolute top-1/2 -translate-y-1/2 w-[40%] max-w-xl h-24 bg-[#d946ef] filter blur-[80px] opacity-[0.25] rounded-full mix-blend-screen"></div>
     </div>
   );
 
   return (
-    <div id="top" className="min-h-screen bg-[#050208] text-[#E2DCE7] selection:bg-[#6b21a8] selection:text-white font-sans relative overflow-x-hidden">
+    <div id="top" className="min-h-screen bg-[#0B0616] text-[#E2DCE7] selection:bg-[#d946ef] selection:text-white font-sans relative overflow-x-hidden">
 
-      <div className="absolute top-[-10%] left-[20%] w-[60%] h-[80%] bg-[conic-gradient(from_0deg,transparent_0_180deg,#6b21a8_360deg)] rounded-full mix-blend-screen filter blur-[150px] opacity-[0.10] animate-[spin_12s_linear_infinite] pointer-events-none"></div>
+      <div className="absolute top-[-10%] left-[20%] w-[60%] h-[80%] bg-[conic-gradient(from_0deg,transparent_0_180deg,#d946ef_270deg,#8b5cf6_360deg)] rounded-full mix-blend-screen filter blur-[150px] opacity-[0.12] animate-[spin_12s_linear_infinite] pointer-events-none"></div>
 
       {/* HEADER */}
       <header className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-2 transition-all duration-1000">
         <nav className={`relative flex items-center justify-between transition-all duration-[1200ms] ${isScrolled ? 'w-[90%] max-w-[850px] px-8 py-3.5 mt-4 rounded-full shadow-[0_0_30px_-10px_rgba(107,33,168,0.15)]' : 'w-full max-w-7xl px-6 py-8 mt-0'}`}>
           <div className={`absolute inset-0 overflow-hidden transition-opacity duration-1000 ${isScrolled ? 'opacity-100 rounded-full' : 'opacity-0'}`}>
-            <div className="absolute top-1/2 left-1/2 w-[2000px] h-[2000px] -translate-x-1/2 -translate-y-1/2 bg-[conic-gradient(from_0deg,transparent_0_280deg,#8b5cf6_360deg)] opacity-20 animate-[spin_4s_linear_infinite]" />
+            <div className="absolute top-1/2 left-1/2 w-[2000px] h-[2000px] -translate-x-1/2 -translate-y-1/2 bg-[conic-gradient(from_0deg,transparent_0_280deg,#d946ef_360deg)] opacity-25 animate-[spin_4s_linear_infinite]" />
             <div className="absolute inset-[1px] bg-[#0A0510]/95 backdrop-blur-xl rounded-full" />
           </div>
           <div className="relative z-10 flex items-center justify-between w-full">
@@ -446,22 +446,22 @@ function Home() {
         <section id="education" className="relative z-10 max-w-7xl mx-auto px-6 py-24">
           <div className="mb-16">
             <h2 className="text-xs font-mono text-[#7a7085] tracking-[0.3em] uppercase mb-4 flex items-center gap-4">
-              {lang === 'EN' ? 'Education' : 'Eğitim'} <span className="w-12 h-[1px] bg-[#7a7085]"></span>
+              {lang === 'EN' ? 'Experience' : 'Deneyim'} <span className="w-12 h-[1px] bg-[#7a7085]"></span>
             </h2>
             <h3 className="text-3xl md:text-5xl font-extrabold tracking-tighter text-[#F8F7F9]">
-              {lang === 'EN' ? 'Academic Background.' : 'Akademik Geçmiş.'}
+              {lang === 'EN' ? 'Education & Experience' : 'Eğitim ve Deneyim'}
             </h3>
           </div>
           <div className="relative border-l border-[#8b5cf6]/20 pl-8 space-y-10 ml-4">
             {educations.map((ed, idx) => (
               <div key={ed.id} className="relative group">
-                <div className="absolute -left-[2.6rem] top-1 w-4 h-4 rounded-full border-2 border-[#8b5cf6] bg-[#050208] group-hover:bg-[#8b5cf6] transition-colors" />
+                <div className="absolute -left-[2.6rem] top-1 w-4 h-4 rounded-full border-2 border-[#8b5cf6] bg-[#0B0616] group-hover:bg-[#8b5cf6] transition-colors" />
                 <div className="bg-white/[0.02] border border-white/5 p-8 rounded-2xl hover:border-[#8b5cf6]/30 transition-all duration-500">
                   <div className="flex flex-wrap items-start justify-between gap-4 mb-3">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-1">
                         <h4 className="text-xl font-bold text-[#F8F7F9]">{ed.schoolName}</h4>
-                        {ed.educationType && (
+                        {ed.educationType && ed.educationType.toLowerCase() !== 'diğer' && ed.educationType.toLowerCase() !== 'other' && (
                           <span className="text-[10px] font-mono text-[#8b5cf6] bg-[#8b5cf6]/10 border border-[#8b5cf6]/20 px-2 py-0.5 rounded-full">
                             {ed.educationType}
                           </span>
@@ -484,13 +484,13 @@ function Home() {
       <SectionDivider />
 
       {/* İLETİŞİM FORMU */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 py-24">
+      <section id="contact" className="relative z-10 max-w-7xl mx-auto px-6 py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
           <div>
             <h2 className="text-xs font-mono text-[#7a7085] tracking-[0.3em] uppercase mb-6 italic">{lang === 'EN' ? 'Get In Touch' : 'İletişime Geç'}</h2>
             <h3 className="text-4xl md:text-5xl font-extrabold tracking-tighter text-[#F8F7F9] mb-6 leading-tight">
-              {lang === 'EN' ? 'Let\'s build something.' : 'Birlikte bir şeyler'}
-              <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-[#bca8ce] to-[#6d5b7e]">{lang === 'EN' ? 'amazing together.' : 'inşa edelim.'}</span>
+              {lang === 'EN' ? 'Let\'s build something' : 'Birlikte bir şeyler'}
+              <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-[#d946ef] to-[#8b5cf6]">{lang === 'EN' ? 'amazing together.' : 'inşa edelim.'}</span>
             </h3>
             <p className="text-[#928b9c] text-lg font-light leading-relaxed">
               {lang === 'EN' ? 'Have a project in mind? Fill out the form and I\'ll get back to you.' : 'Bir projen mi var? Formu doldur, en kısa sürede geri döneceğim.'}
@@ -555,27 +555,25 @@ function Home() {
 
       <SectionDivider />
 
-      {/* İLETİŞİM SECTION */}
-      <section id="contact" className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-12 flex flex-col items-center text-center">
-        <h2 className="text-xs font-mono text-[#7a7085] tracking-[0.3em] uppercase mb-6 italic">{t.contact.tag}</h2>
-        <h3 className="text-4xl md:text-6xl font-extrabold tracking-tighter text-[#F8F7F9] mb-6">{t.contact.title1} <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-[#bca8ce] to-[#6d5b7e]">{t.contact.title2}</span></h3>
-        <p className="text-[#928b9c] text-lg max-w-2xl mb-12 font-light">{t.contact.desc}</p>
-        <a href="https://wa.me/905325598166" target="_blank" rel="noreferrer" className="group relative inline-flex items-center justify-center px-10 py-5 text-base font-semibold text-white transition-all bg-white/[0.03] border border-white/10 rounded-full hover:bg-white/[0.08] hover:border-[#25D366]/40 hover:shadow-[0_0_40px_rgba(37,211,102,0.15)] w-fit cursor-pointer mb-20 hover:-translate-y-1">
-          <svg className="w-6 h-6 mr-3 text-[#25D366] group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 0C5.385 0 0 5.385 0 12.031c0 2.646.848 5.105 2.454 7.228L.484 24l4.904-1.921c2.046 1.433 4.497 2.193 7.127 2.193 6.646 0 12.031-5.385 12.031-12.031S18.677 0 12.031 0zm0 22.062c-2.316 0-4.526-.641-6.44-1.854l-.462-.288-3.328 1.304 1.328-3.23-.308-.49c-1.341-2.12-2.047-4.57-2.047-7.14 0-5.518 4.49-10.008 10.008-10.008 5.518 0 10.008 4.49 10.008 10.008 0 5.518-4.49 10.008-10.008 10.008zm5.5-7.513c-.302-.151-1.787-.881-2.064-.981-.277-.101-.478-.151-.679.151-.202.302-.78 1.008-.956 1.21-.176.202-.352.227-.654.076-1.554-.78-2.673-1.428-3.69-3.208-.176-.302.176-.277.453-.83.076-.151.038-.277-.038-.428-.076-.151-.679-1.637-.932-2.242-.252-.58-.504-.679-.504h-.58c-.202 0-.528.076-.805.378-.277.302-1.057 1.032-1.057 2.518s1.082 2.922 1.233 3.123c.151.202 2.14 3.258 5.181 4.568.73.302 1.304.478 1.748.604.73.202 1.396.176 1.921.101.593-.076 1.787-.73 2.04-1.435.252-.705.252-1.309.176-1.435-.075-.126-.276-.201-.578-.352z" /></svg>
-          {t.contact.btn}
-        </a>
-        <div className="flex flex-wrap justify-center gap-10 md:gap-16 border-t border-white/5 pt-12 w-full max-w-2xl text-[#8c8496] text-sm font-medium tracking-wide">
+      {/* FOOTER */}
+      <footer className="relative z-10 max-w-7xl mx-auto px-6 py-12 flex flex-col items-center text-center">
+        <div className="flex flex-wrap justify-center gap-10 md:gap-16 w-full max-w-2xl text-[#8c8496] text-sm font-medium tracking-wide">
           <a href={profile?.githubLink || "#"} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub ↗</a>
           <a href={profile?.linkedinLink || "#"} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">LinkedIn ↗</a>
           <a href="https://mail.google.com/mail/?view=cm&to=ysfulgen142@gmail.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">E-Posta ↗</a>
         </div>
-        <div className="mt-16 text-[#50455e] text-[10px] tracking-widest font-mono italic">© {new Date().getFullYear()} {(profile?.fullName || "YUSUF ÜLGEN").toUpperCase()}. {t.contact.rights}</div>
-      </section>
+        <div className="mt-8 text-[#50455e] text-[10px] tracking-widest font-mono italic">© {new Date().getFullYear()} {(profile?.fullName || "YUSUF ÜLGEN").toUpperCase()}. {t.contact.rights}</div>
+      </footer>
+
+      {/* FLOATING WHATSAPP BUTTON */}
+      <a href="https://wa.me/905325598166" target="_blank" rel="noreferrer" className="fixed bottom-6 right-6 z-[100] bg-[#25D366] text-white p-4 rounded-full shadow-[0_0_20px_rgba(37,211,102,0.4)] hover:scale-110 hover:shadow-[0_0_30px_rgba(37,211,102,0.6)] transition-all flex items-center justify-center cursor-pointer group">
+        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.487-1.761-1.663-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" /></svg>
+      </a>
 
       {/* MODAL SECTION */}
       {selectedProject && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-[#050208]/80 backdrop-blur-xl cursor-pointer" onClick={() => setSelectedProject(null)}></div>
+          <div className="absolute inset-0 bg-[#0B0616]/80 backdrop-blur-xl cursor-pointer" onClick={() => setSelectedProject(null)}></div>
           <div className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-[#0A0510] border border-white/10 rounded-3xl shadow-2xl p-8 md:p-16 animate-[fadeInUp_0.4s_ease-out]">
             <button onClick={() => setSelectedProject(null)} className="absolute top-6 right-6 text-2xl hover:rotate-90 transition-all cursor-pointer text-white">✕</button>
             <h2 className="text-4xl md:text-6xl font-black text-[#F8F7F9] mb-4 uppercase">

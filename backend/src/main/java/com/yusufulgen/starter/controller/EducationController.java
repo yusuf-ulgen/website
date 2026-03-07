@@ -32,6 +32,14 @@ public class EducationController {
         return ResponseEntity.ok(ApiResponse.success(savedEducation));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<Education>> updateEducation(@PathVariable Long id,
+            @RequestBody Education education) {
+        Education updatedEducation = educationService.updateEducation(id, education);
+        auditLogService.log("EDUCATION_UPDATED", "Eğitim bilgisi güncellendi: " + updatedEducation.getSchoolName());
+        return ResponseEntity.ok(ApiResponse.success(updatedEducation));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<String>> deleteEducation(@PathVariable Long id) {
         educationService.deleteEducation(id);

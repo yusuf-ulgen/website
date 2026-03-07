@@ -22,6 +22,21 @@ public class EducationService {
     }
 
     @SuppressWarnings("null")
+    public Education updateEducation(Long id, Education updatedEducation) {
+        Education existingEducation = educationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Eğitim bilgisi bulunamadı, ID: " + id));
+
+        existingEducation.setSchoolName(updatedEducation.getSchoolName());
+        existingEducation.setDepartment(updatedEducation.getDepartment());
+        existingEducation.setStartDate(updatedEducation.getStartDate());
+        existingEducation.setEndDate(updatedEducation.getEndDate());
+        existingEducation.setDescription(updatedEducation.getDescription());
+        existingEducation.setEducationType(updatedEducation.getEducationType());
+
+        return educationRepository.save(existingEducation);
+    }
+
+    @SuppressWarnings("null")
     public void deleteEducation(Long id) {
         educationRepository.deleteById(id);
     }

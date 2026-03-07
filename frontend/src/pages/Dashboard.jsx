@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  getProjects, createProject, deleteProject,
+  getProjects, createProject, updateProject, deleteProject,
   getSkills, createSkill, deleteSkill,
   getMessages, deleteMessage,
   getProfile, saveProfile,
-  getEducations, createEducation, deleteEducation,
+  getEducations, createEducation, updateEducation, deleteEducation,
 } from '../services/api';
 
 function Dashboard() {
@@ -19,8 +19,11 @@ function Dashboard() {
   const [profile, setProfile] = useState({ fullName: '', title: '', titleEn: '', bio: '', bioEn: '', email: '', githubLink: '', linkedinLink: '' });
 
   const [newProject, setNewProject] = useState({ title: '', titleEn: '', description: '', descriptionEn: '', technologies: '', duration: '', githubUrl: '', liveUrl: '' });
+  const [editingProjectId, setEditingProjectId] = useState(null);
+
   const [newSkill, setNewSkill] = useState({ name: '', category: '', orderIndex: 0 });
   const [newEducation, setNewEducation] = useState({ schoolName: '', department: '', startDate: '', endDate: '', description: '', educationType: 'Üniversite' });
+  const [editingEducationId, setEditingEducationId] = useState(null);
 
   // --- Veri Yükleme ---
   const loadProjects = useCallback(async () => {
@@ -53,11 +56,23 @@ function Dashboard() {
     e.preventDefault();
     if (!newProject.title?.trim()) return alert('Hata: Proje başlığı boş olamaz!');
     try {
-      await createProject(newProject);
+      if (editingProjectId) {
+        await updateProject(editingProjectId, newProject);
+        alert('Proje başarıyla güncellendi! ✨');
+      } else {
+        await createProject(newProject);
+        alert('Proje başarıyla eklendi! ✨');
+      }
       setNewProject({ title: '', titleEn: '', description: '', descriptionEn: '', technologies: '', duration: '', githubUrl: '', liveUrl: '' });
+      setEditingProjectId(null);
       await loadProjects();
-      alert('Proje başarıyla eklendi! ✨');
     } catch (err) { alert(`Hata: ${err.message}`); }
+  };
+
+  const handleEditProject = (p) => {
+    setNewProject({ ...p });
+    setEditingProjectId(p.id);
+    document.querySelector('.flex-1.p-12').scrollTo({ top: 0, behavior: 'smooth' });
   };
   const handleDeleteProject = async (id) => {
     if (!window.confirm('Projeyi silmek istiyor musun?')) return;
@@ -84,11 +99,23 @@ function Dashboard() {
     e.preventDefault();
     if (!newEducation.schoolName?.trim()) return alert('Hata: Okul adı boş olamaz!');
     try {
-      await createEducation(newEducation);
+      if (editingEducationId) {
+        await updateEducation(editingEducationId, newEducation);
+        alert('Eğitim bilgisi başarıyla güncellendi! ✨');
+      } else {
+        await createEducation(newEducation);
+        alert('Eğitim bilgisi eklendi! ✨');
+      }
       setNewEducation({ schoolName: '', department: '', startDate: '', endDate: '', description: '', educationType: 'Üniversite' });
+      setEditingEducationId(null);
       await loadEducations();
-      alert('Eğitim bilgisi eklendi! ✨');
     } catch (err) { alert(`Hata: ${err.message}`); }
+  };
+
+  const handleEditEducation = (ed) => {
+    setNewEducation({ ...ed });
+    setEditingEducationId(ed.id);
+    document.querySelector('.flex-1.p-12').scrollTo({ top: 0, behavior: 'smooth' });
   };
   const handleDeleteEducation = async (id) => {
     if (!window.confirm('Eğitim bilgisini silmek istiyor musun?')) return;
@@ -137,7 +164,7 @@ function Dashboard() {
         {activeTab === 'projects' && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 animate-[fadeInUp_0.4s_ease-out]">
             <div className="lg:col-span-1 bg-white/[0.02] border border-white/10 p-8 rounded-3xl h-fit shadow-xl">
-              <h2 className="text-lg font-bold mb-6 italic">Yeni Proje Yayınla</h2>
+              <h2 className="text-lg font-bold mb-6 italic">{editingProjectId ? 'Projeyi Düzenle' : 'Yeni Proje Yayınla'}</h2>
               <form onSubmit={handleAddProject} className="space-y-3">
                 <div className="grid grid-cols-2 gap-2">
                   <input className={inputCls} placeholder="Başlık (TR)" value={newProject.title} onChange={e => setNewProject({ ...newProject, title: e.target.value })} required />
@@ -148,7 +175,12 @@ function Dashboard() {
                 <input className={inputCls} placeholder="Teknolojiler (virgülle)" value={newProject.technologies} onChange={e => setNewProject({ ...newProject, technologies: e.target.value })} />
                 <input className={inputCls} placeholder="GitHub URL" value={newProject.githubUrl} onChange={e => setNewProject({ ...newProject, githubUrl: e.target.value })} />
                 <input className={inputCls} placeholder="Canlı Site URL" value={newProject.liveUrl} onChange={e => setNewProject({ ...newProject, liveUrl: e.target.value })} />
-                <button type="submit" className="w-full bg-[#8b5cf6] py-4 rounded-xl font-bold hover:scale-[1.01] transition-all">Projeyi Kaydet</button>
+                <button type="submit" className="w-full bg-[#8b5cf6] py-4 rounded-xl font-bold hover:scale-[1.01] transition-all">
+                  {editingProjectId ? 'Projeyi Güncelle' : 'Projeyi Kaydet'}
+                </button>
+                {editingProjectId && (
+                  <button type="button" onClick={() => { setEditingProjectId(null); setNewProject({ title: '', titleEn: '', description: '', descriptionEn: '', technologies: '', duration: '', githubUrl: '', liveUrl: '' }); }} className="w-full bg-white/10 py-4 rounded-xl font-bold hover:scale-[1.01] transition-all mt-2">İptal Et</button>
+                )}
               </form>
             </div>
             <div className="lg:col-span-2 space-y-4">
@@ -159,7 +191,10 @@ function Dashboard() {
                     <h3 className="font-bold text-[#F8F7F9]">{p.title} <span className="text-[10px] text-[#8b5cf6] font-mono ml-2">{p.titleEn ? 'TR/EN' : 'TR'}</span></h3>
                     <p className="text-xs text-[#7a7085] mt-1">{p.technologies}</p>
                   </div>
-                  <button onClick={() => handleDeleteProject(p.id)} className="p-3 bg-red-500/10 text-red-500 rounded-xl opacity-0 group-hover:opacity-100 transition-all hover:bg-red-500 hover:text-white text-xs">Sil</button>
+                  <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-all">
+                    <button onClick={() => handleEditProject(p)} className="p-3 bg-blue-500/10 text-blue-500 rounded-xl hover:bg-blue-500 hover:text-white text-xs">Düzenle</button>
+                    <button onClick={() => handleDeleteProject(p.id)} className="p-3 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-white text-xs">Sil</button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -200,7 +235,7 @@ function Dashboard() {
         {activeTab === 'education' && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 animate-[fadeInUp_0.4s_ease-out]">
             <div className="lg:col-span-1 bg-white/[0.02] border border-white/10 p-8 rounded-3xl h-fit shadow-xl">
-              <h2 className="text-lg font-bold mb-6 italic">Yeni Eğitim Ekle</h2>
+              <h2 className="text-lg font-bold mb-6 italic">{editingEducationId ? 'Eğitimi Düzenle' : 'Yeni Eğitim Ekle'}</h2>
               <form onSubmit={handleAddEducation} className="space-y-3">
                 <select className={inputCls} value={newEducation.educationType} onChange={e => setNewEducation({ ...newEducation, educationType: e.target.value })} required>
                   <option value="Üniversite">🎓 Üniversite</option>
@@ -215,7 +250,12 @@ function Dashboard() {
                   <input className={inputCls} placeholder="Bitiş (Örn: 2024)" value={newEducation.endDate} onChange={e => setNewEducation({ ...newEducation, endDate: e.target.value })} />
                 </div>
                 <textarea className={`${inputCls} h-24 resize-none`} placeholder="Açıklama / Başarılar (opsiyonel)" value={newEducation.description} onChange={e => setNewEducation({ ...newEducation, description: e.target.value })}></textarea>
-                <button type="submit" className="w-full bg-[#8b5cf6] py-4 rounded-xl font-bold hover:scale-[1.01] transition-all">Eğitimi Kaydet</button>
+                <button type="submit" className="w-full bg-[#8b5cf6] py-4 rounded-xl font-bold hover:scale-[1.01] transition-all">
+                  {editingEducationId ? 'Eğitimi Güncelle' : 'Eğitimi Kaydet'}
+                </button>
+                {editingEducationId && (
+                  <button type="button" onClick={() => { setEditingEducationId(null); setNewEducation({ schoolName: '', department: '', startDate: '', endDate: '', description: '', educationType: 'Üniversite' }); }} className="w-full bg-white/10 py-4 rounded-xl font-bold hover:scale-[1.01] transition-all mt-2">İptal Et</button>
+                )}
               </form>
             </div>
             <div className="lg:col-span-2 space-y-4">
@@ -233,7 +273,10 @@ function Dashboard() {
                         <p className="text-xs text-[#7a7085] mt-1">{ed.startDate}{ed.endDate ? ` — ${ed.endDate}` : ''}</p>
                         {ed.description && <p className="text-xs text-[#928b9c] mt-2">{ed.description}</p>}
                       </div>
-                      <button onClick={() => handleDeleteEducation(ed.id)} className="text-red-500 text-xs opacity-0 group-hover:opacity-100 transition-all hover:underline ml-4">SİL</button>
+                      <div className="flex gap-4 ml-4">
+                        <button onClick={() => handleEditEducation(ed)} className="text-blue-500 text-xs opacity-0 group-hover:opacity-100 transition-all hover:underline">DÜZENLE</button>
+                        <button onClick={() => handleDeleteEducation(ed.id)} className="text-red-500 text-xs opacity-0 group-hover:opacity-100 transition-all hover:underline">SİL</button>
+                      </div>
                     </div>
                   </div>
                 ))

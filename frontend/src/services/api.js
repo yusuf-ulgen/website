@@ -59,6 +59,15 @@ export const createProject = async (project) => {
     return handleResponse(res);
 };
 
+export const updateProject = async (id, project) => {
+    const res = await fetch(`${BASE_URL}/api/v1/projects/${id}`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(project),
+    });
+    return handleResponse(res);
+};
+
 export const deleteProject = async (id) => {
     const res = await fetch(`${BASE_URL}/api/v1/projects/${id}`, {
         method: 'DELETE',
@@ -124,6 +133,15 @@ export const getEducations = async () => {
 export const createEducation = async (education) => {
     const res = await fetch(`${BASE_URL}/api/v1/educations`, {
         method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(education),
+    });
+    return handleResponse(res);
+};
+
+export const updateEducation = async (id, education) => {
+    const res = await fetch(`${BASE_URL}/api/v1/educations/${id}`, {
+        method: 'PUT',
         headers: getAuthHeaders(),
         body: JSON.stringify(education),
     });
