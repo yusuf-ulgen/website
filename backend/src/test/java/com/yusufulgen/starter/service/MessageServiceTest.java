@@ -9,12 +9,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.Arrays;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -37,7 +34,7 @@ class MessageServiceTest {
         m.setId(1L);
         m.setSenderName("John Doe");
         m.setSenderEmail("john@doe.com");
-        
+
         when(messageRepository.findAll()).thenReturn(Arrays.asList(m));
 
         // Act
@@ -49,6 +46,7 @@ class MessageServiceTest {
         verify(messageRepository, times(1)).findAll();
     }
 
+    @SuppressWarnings("null")
     @Test
     void saveMessage_Success() {
         // Arrange
@@ -66,7 +64,8 @@ class MessageServiceTest {
         savedMessage.setContent("Test Message");
 
         when(messageRepository.save(any(Message.class))).thenReturn(savedMessage);
-        // mail atması bekleniyor ama sadece metodu çağırması bizim için yeterli ve mocklandığı için gerçek mail atılmaz
+        // mail atması bekleniyor ama sadece metodu çağırması bizim için yeterli ve
+        // mocklandığı için gerçek mail atılmaz
         doNothing().when(emailService).sendNotification(anyString(), anyString(), anyString(), anyString());
 
         // Act
@@ -76,7 +75,8 @@ class MessageServiceTest {
         assertEquals(5L, result.getId());
         assertEquals("Jane", result.getSenderName());
         verify(messageRepository, times(1)).save(any(Message.class));
-        verify(emailService, times(1)).sendNotification(eq("Jane"), eq("jane@doe.com"), eq("Hello"), eq("Test Message"));
+        verify(emailService, times(1)).sendNotification(eq("Jane"), eq("jane@doe.com"), eq("Hello"),
+                eq("Test Message"));
     }
 
     @Test

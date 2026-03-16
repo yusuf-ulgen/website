@@ -56,6 +56,7 @@ class EducationControllerTest {
         verify(educationService, times(1)).getAllEducations();
     }
 
+    @SuppressWarnings("null")
     @Test
     void createEducation_Success() throws Exception {
         Education newEd = new Education();
@@ -68,8 +69,8 @@ class EducationControllerTest {
         when(educationService.saveEducation(any(Education.class))).thenReturn(savedEd);
 
         mockMvc.perform(post("/api/v1/educations")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(newEd)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(newEd)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data.id").value(2))

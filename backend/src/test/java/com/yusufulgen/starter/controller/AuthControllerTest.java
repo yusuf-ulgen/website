@@ -15,7 +15,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -26,65 +25,67 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 class AuthControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+        @Autowired
+        private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+        @Autowired
+        private ObjectMapper objectMapper;
 
-    @MockitoBean
-    private JwtUtil jwtUtil;
+        @MockitoBean
+        private JwtUtil jwtUtil;
 
-    @MockitoBean
-    private AuthenticationManager authenticationManager;
+        @MockitoBean
+        private AuthenticationManager authenticationManager;
 
-    @MockitoBean
-    private AuditLogService auditLogService;
+        @MockitoBean
+        private AuditLogService auditLogService;
 
-    @MockitoBean
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
+        @MockitoBean
+        private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Test
-    void login_Success() throws Exception {
-        // Arrange
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setUsername("admin");
-        loginRequest.setPassword("admin123");
-        String fakeToken = "fake-jwt-token";
+        @SuppressWarnings("null")
+        @Test
+        void login_Success() throws Exception {
+                // Arrange
+                LoginRequest loginRequest = new LoginRequest();
+                loginRequest.setUsername("admin");
+                loginRequest.setPassword("admin123");
+                String fakeToken = "fake-jwt-token";
 
-        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
-                .thenReturn(null);
-        when(jwtUtil.generateToken("admin")).thenReturn(fakeToken);
+                when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
+                                .thenReturn(null);
+                when(jwtUtil.generateToken("admin")).thenReturn(fakeToken);
 
-        // Act & Assert
-        mockMvc.perform(post("/api/v1/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginRequest)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").value(fakeToken));
+                // Act & Assert
+                mockMvc.perform(post("/api/v1/auth/login")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(loginRequest)))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.success").value(true))
+                                .andExpect(jsonPath("$.data").value(fakeToken));
 
-        verify(auditLogService, times(1)).log(eq("LOGIN_SUCCESS"), anyString());
-    }
+                verify(auditLogService, times(1)).log(eq("LOGIN_SUCCESS"), anyString());
+        }
 
-    @Test
-    void login_Failed_BadCredentials() throws Exception {
-        // Arrange
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setUsername("admin");
-        loginRequest.setPassword("wrongpassword");
+        @SuppressWarnings("null")
+        @Test
+        void login_Failed_BadCredentials() throws Exception {
+                // Arrange
+                LoginRequest loginRequest = new LoginRequest();
+                loginRequest.setUsername("admin");
+                loginRequest.setPassword("wrongpassword");
 
-        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
-                .thenThrow(new BadCredentialsException("Bad credentials"));
+                when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
+                                .thenThrow(new BadCredentialsException("Bad credentials"));
 
-        // Act & Assert
-        mockMvc.perform(post("/api/v1/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginRequest)))
-                .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.success").value(false))
-                .andExpect(jsonPath("$.errors[0]").value("Hatalı kullanıcı adı veya şifre!"));
+                // Act & Assert
+                mockMvc.perform(post("/api/v1/auth/login")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(loginRequest)))
+                                .andExpect(status().isUnauthorized())
+                                .andExpect(jsonPath("$.success").value(false))
+                                .andExpect(jsonPath("$.errors[0]").value("Hatalı kullanıcı adı veya şifre!"));
 
-        verify(auditLogService, times(1)).log(eq("LOGIN_FAILED"), anyString());
-    }
+                verify(auditLogService, times(1)).log(eq("LOGIN_FAILED"), anyString());
+        }
 }

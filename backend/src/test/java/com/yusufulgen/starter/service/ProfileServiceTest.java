@@ -7,10 +7,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.Arrays;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -41,6 +39,7 @@ class ProfileServiceTest {
         verify(profileRepository, times(1)).findAll();
     }
 
+    @SuppressWarnings("null")
     @Test
     void saveProfile_Success() {
         // Arrange
@@ -50,7 +49,7 @@ class ProfileServiceTest {
         Profile savedP = new Profile();
         savedP.setId(2L);
         savedP.setFullName("John");
-        
+
         when(profileRepository.save(any(Profile.class))).thenReturn(savedP);
 
         // Act

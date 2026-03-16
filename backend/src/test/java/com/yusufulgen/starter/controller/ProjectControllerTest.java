@@ -12,10 +12,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.util.Arrays;
 import java.util.List;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -62,6 +60,7 @@ class ProjectControllerTest {
         verify(projectService, times(1)).getAllProjects();
     }
 
+    @SuppressWarnings("null")
     @Test
     void createProject_Success() throws Exception {
         Project newProject = new Project();
@@ -74,8 +73,8 @@ class ProjectControllerTest {
         when(projectService.saveProject(any(Project.class))).thenReturn(savedProject);
 
         mockMvc.perform(post("/api/v1/projects")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(newProject)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(newProject)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data.id").value(10))

@@ -7,10 +7,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.Arrays;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -44,12 +42,13 @@ class ProjectServiceTest {
         verify(projectRepository, times(1)).findAll();
     }
 
+    @SuppressWarnings("null")
     @Test
     void saveProject_Success() {
         // Arrange
         Project p = new Project();
         p.setTitle("New Tech");
-        
+
         Project saved = new Project();
         saved.setId(1L);
         saved.setTitle("New Tech");

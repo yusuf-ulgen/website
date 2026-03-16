@@ -12,9 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.util.Arrays;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -56,6 +54,7 @@ class ProfileControllerTest {
         verify(profileService, times(1)).getProfile();
     }
 
+    @SuppressWarnings("null")
     @Test
     void saveProfile_Success() throws Exception {
         Profile p = new Profile();
@@ -68,8 +67,8 @@ class ProfileControllerTest {
         when(profileService.saveProfile(any(Profile.class))).thenReturn(savedP);
 
         mockMvc.perform(post("/api/v1/profile")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(p)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(p)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data.id").value(1))

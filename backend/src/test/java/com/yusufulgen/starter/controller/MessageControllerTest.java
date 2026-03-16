@@ -13,9 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.util.Arrays;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -61,6 +59,7 @@ class MessageControllerTest {
         verify(messageService, times(1)).getAllMessages();
     }
 
+    @SuppressWarnings("null")
     @Test
     void sendMessage_Success() throws Exception {
         MessageRequest request = new MessageRequest();
@@ -77,8 +76,8 @@ class MessageControllerTest {
         when(messageService.saveMessage(any(MessageRequest.class))).thenReturn(response);
 
         mockMvc.perform(post("/api/v1/messages")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data.id").value(10))

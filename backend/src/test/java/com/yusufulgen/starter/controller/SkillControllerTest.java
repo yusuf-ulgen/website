@@ -12,9 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.util.Arrays;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -56,6 +54,7 @@ class SkillControllerTest {
         verify(skillService, times(1)).getAllSkills();
     }
 
+    @SuppressWarnings("null")
     @Test
     void createSkill_Success() throws Exception {
         Skill s = new Skill();
@@ -68,8 +67,8 @@ class SkillControllerTest {
         when(skillService.saveSkill(any(Skill.class))).thenReturn(savedS);
 
         mockMvc.perform(post("/api/v1/skills")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(s)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(s)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data.id").value(2))
