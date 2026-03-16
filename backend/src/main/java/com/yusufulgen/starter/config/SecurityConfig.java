@@ -19,6 +19,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -55,40 +58,34 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS kaynağını belirttik
+                .cors(cors -> cors.disable()) // Standalone CorsFilter kullanacağız
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // OPTIONS isteklerine izin ver
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/v1/messages/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated())
-                // 2. ADIM: Spring'e "İstekleri önce benim JWT filtremden geçir" diyoruz:
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
     @Bean
-    public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
-        org.springframework.web.cors.CorsConfiguration configuration = new org.springframework.web.cors.CorsConfiguration();
-        // İzin verilen kökenler (origins)
-        configuration.setAllowedOrigins(java.util.List.of(
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.setAllowedOriginPatterns(java.util.List.of(
             "http://localhost:5173",
             "https://www.yusufulgen.com",
             "https://yusufulgen.com"
         ));
-        // İzin verilen metodlar
-        configuration.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        // İzin verilen başlıklar
-        configuration.setAllowedHeaders(java.util.List.of("Authorization", "Content-Type", "Cache-Control"));
-        // Kimlik bilgilerine (cookie, auth header) izin ver
-        configuration.setAllowCredentials(true);
-        
-        org.springframework.web.cors.UrlBasedCorsConfigurationSource source = new org.springframework.web.cors.UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
+        config.setAllowedHeaders(java.util.List.of("*"));
+        config.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 }

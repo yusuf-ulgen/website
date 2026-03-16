@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/profile")
-@CrossOrigin(origins = {"http://localhost:5173", "https://www.yusufulgen.com", "https://yusufulgen.com"})
 public class ProfileController {
 
     @Autowired

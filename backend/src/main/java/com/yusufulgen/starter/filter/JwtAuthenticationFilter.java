@@ -26,10 +26,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Lazy
     private UserDetailsService userDetailsService;
 
-    @SuppressWarnings("null")
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
 
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
