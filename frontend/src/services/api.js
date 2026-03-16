@@ -2,7 +2,7 @@
 // Tüm backend istekleri bu dosya aracılığıyla yapılır.
 // .env dosyasındaki VITE_API_URL üretim/geliştirme ortamında otomatik değişir.
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8081';
+const BASE_URL = import.meta.env.VITE_API_URL || 'https://website-rkfz.onrender.com';
 
 // --- Genel yardımcı ---
 const getAuthHeaders = () => {
