@@ -1,0 +1,26 @@
+# Node
+node_modules/
+dist/
+
+# Java
+backend/target/
+backend/.mvn/
+backend/*.jar
+backend/mvnw
+backend/mvnw.cmd
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.iml
+*.ipr
+*.iws
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+backend/test.log
