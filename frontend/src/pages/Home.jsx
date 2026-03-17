@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import myLogo from '../assets/logo.png';
+import myLogo from '../assets/website_logo.png';
 import { getProjects, getSkills, getProfile, getEducations, sendMessage } from '../services/api';
 
 const technologies = [
@@ -43,7 +43,11 @@ const translations = {
       archTitle: "Sistem Mimarisi",
       archDesc: "Güvenli ve ölçeklenebilir altyapılar",
       uiTitle: "UI/UX Tasarım",
-      uiDesc: "Ziyaretçiyi müşteriye dönüştüren etkileşimler"
+      uiDesc: "Ziyaretçiyi müşteriye dönüştüren etkileşimler",
+      mobileTitle: "Mobil Uygulama Geliştirme",
+      mobileDesc: "iOS ve Android dünyasında yüksek performanslı, native ve cross-platform çözümler",
+      softwareTitle: "Yazılım Mühendisliği",
+      softwareDesc: "Karmaşık problemleri çözen, sürdürülebilir ve temiz kod prensipleriyle geliştirilen sistemler"
     },
     skills: { tag: "Yetenekler", title: "Teknoloji Yığınım", noData: "[Henüz veri yok]" },
     projects: { title: "Öne Çıkan İşlerim", inspect: "Detayları İncele →" },
@@ -66,7 +70,11 @@ const translations = {
       archTitle: "System Architecture",
       archDesc: "Secure, scalable, and robust infrastructures",
       uiTitle: "UI/UX Design",
-      uiDesc: "Interactions that turn visitors into customers"
+      uiDesc: "Interactions that turn visitors into customers",
+      mobileTitle: "Mobile App Development",
+      mobileDesc: "High-performance native and cross-platform solutions for iOS and Android",
+      softwareTitle: "Software Engineering",
+      softwareDesc: "Systems developed with sustainable and clean code principles to solve complex problems"
     },
     skills: { tag: "Skills", title: "My Tech Stack", noData: "[No data yet]" },
     projects: { title: "Featured Work", inspect: "View Details →" },
@@ -299,6 +307,16 @@ function Home() {
             <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-[#50455e] mb-4">02</div>
             <div className="text-sm font-medium mb-2 text-[#E2DCE7]">{t.about.uiTitle}</div>
             <div className="text-xs text-[#7a7085]">{t.about.uiDesc}</div>
+          </div>
+          <div className="bg-white/[0.02] border border-white/5 p-8 rounded-2xl hover:border-white/10 transition-all backdrop-blur-md">
+            <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-[#50455e] mb-4">03</div>
+            <div className="text-sm font-medium mb-2 text-[#E2DCE7]">{t.about.mobileTitle}</div>
+            <div className="text-xs text-[#7a7085]">{t.about.mobileDesc}</div>
+          </div>
+          <div className="bg-white/[0.02] border border-white/5 p-8 rounded-2xl hover:border-white/10 transition-all backdrop-blur-md sm:translate-y-8">
+            <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-[#50455e] mb-4">04</div>
+            <div className="text-sm font-medium mb-2 text-[#E2DCE7]">{t.about.softwareTitle}</div>
+            <div className="text-xs text-[#7a7085]">{t.about.softwareDesc}</div>
           </div>
         </div>
       </section>
