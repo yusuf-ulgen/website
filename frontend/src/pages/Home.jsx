@@ -161,6 +161,11 @@ function Home() {
       await sendMessage(contactForm);
       setContactStatus('success');
       setContactForm({ senderName: '', senderEmail: '', subject: '', content: '' });
+      
+      // 5 saniye sonra formu otomatik sıfırla
+      setTimeout(() => {
+        setContactStatus(null);
+      }, 5000);
     } catch (err) {
       console.error(err);
       setContactStatus('error');
