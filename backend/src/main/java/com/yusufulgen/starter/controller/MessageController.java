@@ -28,9 +28,16 @@ public class MessageController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<MessageResponse>> sendMessage(@Valid @RequestBody MessageRequest request) {
+        System.out.println(">>> CONTROLLER: Mesaj isteği alındı. Gönderen: " + request.getSenderEmail());
         MessageResponse response = messageService.saveMessage(request);
-        // Ziyaretçi mesaj attığında da log tutabiliriz (isteğe bağlı)
-        auditLogService.log("MESSAGE_RECEIVED", "Yeni iletişim formu mesajı alındı: " + request.getSenderEmail());
+        System.out.println(">>> CONTROLLER: Mesaj kaydedildi, response dönülüyor.");
+        
+        try {
+            auditLogService.log("MESSAGE_RECEIVED", "Yeni iletişim formu mesajı alındı: " + request.getSenderEmail());
+        } catch (Exception e) {
+            System.err.println(">>> CONTROLLER: AuditLog hatası (ihmal edilebilir): " + e.getMessage());
+        }
+        
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 

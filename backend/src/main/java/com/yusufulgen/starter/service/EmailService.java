@@ -22,6 +22,8 @@ public class EmailService {
     @Async
     public void sendNotification(String senderName, String senderEmail, String subject, String content) {
         logger.info("E-posta gönderimi başlatılıyor... Alıcı: ysfulgen142@gmail.com | Gönderen: {}", mailFrom);
+        System.out.println(">>> EMAIL-THREAD: İşlem başladı. Alıcı: ysfulgen142@gmail.com | Gönderen: " + mailFrom);
+        
         SimpleMailMessage message = new SimpleMailMessage();
         
         message.setFrom(mailFrom);
@@ -34,8 +36,11 @@ public class EmailService {
         try {
             mailSender.send(message);
             logger.info("E-posta başarıyla gönderildi!");
+            System.out.println(">>> EMAIL-THREAD: E-posta GÖNDERİLDİ.");
         } catch (Exception e) {
             logger.error("KRİTİK HATA: E-posta gönderilemedi! Hata: {}", e.getMessage(), e);
+            System.err.println(">>> EMAIL-THREAD: KRİTİK HATA! " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

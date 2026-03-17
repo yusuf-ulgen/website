@@ -32,6 +32,7 @@ public class MessageService {
 
     // React'ten gelen Request DTO'yu Entity'e çevirip kaydediyoruz
     public MessageResponse saveMessage(MessageRequest request) {
+        System.out.println(">>> SERVICE: Mesaj kaydediliyor...");
         
         // 1. Kuryeden (DTO) gelenleri Veritabanı objesine aktar
         Message message = new Message();
@@ -43,10 +44,12 @@ public class MessageService {
         // 2. Veritabanına kaydet
         Message savedMessage = messageRepository.save(message);
         logger.info("Yeni mesaj veritabanına kaydedildi. ID: {}", savedMessage.getId());
+        System.out.println(">>> SERVICE: DB Kaydı başarılı. ID: " + savedMessage.getId());
 
         // 3. Mail at (Hata olsa bile kullanıcıya "başarılı" dönsün)
         try {
             logger.info("E-posta bildirimi tetikleniyor...");
+            System.out.println(">>> SERVICE: E-posta bildirimi tetikleniyor...");
             emailService.sendNotification(
                     savedMessage.getSenderName(),
                     savedMessage.getSenderEmail(),
@@ -55,6 +58,7 @@ public class MessageService {
             );
         } catch (Exception e) {
             logger.error("E-posta bildirimi tetikleme aşamasında hata: {}", e.getMessage());
+            System.err.println(">>> SERVICE: E-posta tetikleme HATASI: " + e.getMessage());
         }
 
         // 4. Kaydedilen veriyi Response DTO'ya çevirip geri döndür
