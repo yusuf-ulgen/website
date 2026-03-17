@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import myLogo from '../assets/website_logo.png';
+import projectFinance from '../assets/project_finance.png';
+import projectArch from '../assets/project_arch.png';
+import projectWeb from '../assets/project_web.png';
+import projectTravel from '../assets/project_travel.png';
+import projectAi from '../assets/project_ai.png';
 import { getProjects, getSkills, getProfile, getEducations, sendMessage } from '../services/api';
 
 const technologies = [
@@ -22,14 +27,12 @@ const technologies = [
   { name: 'PostgreSQL', icon: 'https://cdn.simpleicons.org/postgresql/4169E1' }
 ];
 
-// PROJE GÖRSELLERİ İÇİN PLACEHOLDER - KENDİ GÖRSELLERİNİZİ BURAYA EKLEYİN
-// Örnek kullanım: import proje1Gorsel from '../assets/proje1.png'; ve img: proje1Gorsel
 const projectMarqueeItems = [
-  { name: "Proje Adı 1", img: "https://placehold.co/600x400/1E1E1E/FFF?text=Proje+1", link: "#" },
-  { name: "Proje Adı 2", img: "https://placehold.co/600x400/1E1E1E/FFF?text=Proje+2", link: "#" },
-  { name: "Proje Adı 3", img: "https://placehold.co/600x400/1E1E1E/FFF?text=Proje+3", link: "#" },
-  { name: "Proje Adı 4", img: "https://placehold.co/600x400/1E1E1E/FFF?text=Proje+4", link: "#" },
-  { name: "Proje Adı 5", img: "https://placehold.co/600x400/1E1E1E/FFF?text=Proje+5", link: "#" }
+  { name: "Cüzdan - Finansal Yönetim", img: projectFinance, link: "#projects" },
+  { name: "Sistem Mimarisi Tasarımı", img: projectArch, link: "#about" },
+  { name: "Analytics Dashboard", img: projectWeb, link: "#projects" },
+  { name: "Travel Planner Mobile", img: projectTravel, link: "#projects" },
+  { name: "AI Code Assistant", img: projectAi, link: "#projects" }
 ];
 
 // --- ÇEVİRİ SÖZLÜĞÜ (SABİT METİNLER) ---

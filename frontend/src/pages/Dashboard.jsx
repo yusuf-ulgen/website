@@ -173,6 +173,7 @@ function Dashboard() {
                 <textarea className={`${inputCls} h-20 resize-none`} placeholder="Açıklama (TR)" value={newProject.description} onChange={e => setNewProject({ ...newProject, description: e.target.value })} required></textarea>
                 <textarea className={`${inputCls} h-20 resize-none`} placeholder="Açıklama (EN)" value={newProject.descriptionEn} onChange={e => setNewProject({ ...newProject, descriptionEn: e.target.value })}></textarea>
                 <input className={inputCls} placeholder="Teknolojiler (virgülle)" value={newProject.technologies} onChange={e => setNewProject({ ...newProject, technologies: e.target.value })} />
+                <input className={inputCls} placeholder="Geliştirme Süresi (Örn: 3 hafta)" value={newProject.duration || ''} onChange={e => setNewProject({ ...newProject, duration: e.target.value })} />
                 <input className={inputCls} placeholder="GitHub URL" value={newProject.githubUrl} onChange={e => setNewProject({ ...newProject, githubUrl: e.target.value })} />
                 <input className={inputCls} placeholder="Canlı Site URL" value={newProject.liveUrl} onChange={e => setNewProject({ ...newProject, liveUrl: e.target.value })} />
                 <button type="submit" className="w-full bg-[#8b5cf6] py-4 rounded-xl font-bold hover:scale-[1.01] transition-all">
