@@ -10,8 +10,8 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 # İlk aşamada oluşan .jar dosyasını alıp app.jar olarak kopyalıyoruz
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /app/target/website-*.jar app.jar
 # Render'ın sitemizle iletişim kuracağı port
 EXPOSE 8080
-# Projeyi ayağa kaldıran komut
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Projeyi ayağa kaldıran komut (Bellek limitleri eklenmiş)
+ENTRYPOINT ["java", "-Xmx300m", "-Xss512k", "-jar", "app.jar"]
