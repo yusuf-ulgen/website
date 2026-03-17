@@ -7,7 +7,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Starter {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Starter.class, args);
+		try {
+			SpringApplication.run(Starter.class, args);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("APPLIKASYON BASLATILAMADI: " + e.getMessage());
+			System.exit(1);
+		}
 	}
 
 }
