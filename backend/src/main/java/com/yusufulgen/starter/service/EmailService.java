@@ -1,5 +1,7 @@
 package com.yusufulgen.starter.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailService {
 
+    private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
+
     @Autowired
     private JavaMailSender mailSender;
 
@@ -17,7 +21,7 @@ public class EmailService {
 
     @Async
     public void sendNotification(String senderName, String senderEmail, String subject, String content) {
-        System.out.println("DEBUG [" + Thread.currentThread().getName() + "]: E-posta gönderimi başlatılıyor... Alıcı: ysfulgen142@gmail.com | Kimden: " + mailFrom);
+        logger.info("E-posta gönderimi başlatılıyor... Alıcı: ysfulgen142@gmail.com | Gönderen: {}", mailFrom);
         SimpleMailMessage message = new SimpleMailMessage();
         
         message.setFrom(mailFrom);
@@ -29,11 +33,9 @@ public class EmailService {
 
         try {
             mailSender.send(message);
-            System.out.println("E-posta başarıyla gönderildi!");
+            logger.info("E-posta başarıyla gönderildi!");
         } catch (Exception e) {
-            System.err.println("KRİTİK HATA: E-posta gönderilemedi!");
-            System.err.println("Hata Mesajı: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("KRİTİK HATA: E-posta gönderilemedi! Hata: {}", e.getMessage(), e);
         }
     }
 }

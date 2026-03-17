@@ -4,6 +4,8 @@ import com.yusufulgen.starter.dto.request.MessageRequest;
 import com.yusufulgen.starter.dto.response.MessageResponse;
 import com.yusufulgen.starter.entity.Message;
 import com.yusufulgen.starter.repository.MessageRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -11,6 +13,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class MessageService {
+
+    private static final Logger logger = LoggerFactory.getLogger(MessageService.class);
 
     @Autowired
     private MessageRepository messageRepository;
@@ -38,9 +42,11 @@ public class MessageService {
 
         // 2. Veritabanına kaydet
         Message savedMessage = messageRepository.save(message);
+        logger.info("Yeni mesaj veritabanına kaydedildi. ID: {}", savedMessage.getId());
 
         // 3. Mail at (Hata olsa bile kullanıcıya "başarılı" dönsün)
         try {
+            logger.info("E-posta bildirimi tetikleniyor...");
             emailService.sendNotification(
                     savedMessage.getSenderName(),
                     savedMessage.getSenderEmail(),
@@ -48,7 +54,7 @@ public class MessageService {
                     savedMessage.getContent()
             );
         } catch (Exception e) {
-            System.err.println("E-posta bildirimi gönderilemedi fakat mesaj kaydedildi: " + e.getMessage());
+            logger.error("E-posta bildirimi tetikleme aşamasında hata: {}", e.getMessage());
         }
 
         // 4. Kaydedilen veriyi Response DTO'ya çevirip geri döndür

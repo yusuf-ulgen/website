@@ -14,8 +14,14 @@ public class AuditLogService {
     private AuditLogRepository repository;
 
     public void log(String action, String details) {
-        // Mevcut giriş yapmış kullanıcının adını JWT üzerinden çeker
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        String username = "ANONYMOUS";
+        try {
+            if (SecurityContextHolder.getContext().getAuthentication() != null) {
+                username = SecurityContextHolder.getContext().getAuthentication().getName();
+            }
+        } catch (Exception e) {
+            // Sessizce devam et
+        }
         
         AuditLog auditLog = new AuditLog();
         auditLog.setUsername(username);
