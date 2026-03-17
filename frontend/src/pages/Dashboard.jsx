@@ -22,7 +22,7 @@ function Dashboard() {
   const [editingProjectId, setEditingProjectId] = useState(null);
 
   const [newSkill, setNewSkill] = useState({ name: '', category: '', orderIndex: 0 });
-  const [newEducation, setNewEducation] = useState({ schoolName: '', department: '', startDate: '', endDate: '', description: '', educationType: 'Üniversite' });
+  const [newEducation, setNewEducation] = useState({ schoolName: '', schoolNameEn: '', department: '', departmentEn: '', startDate: '', endDate: '', description: '', descriptionEn: '', educationType: 'Üniversite' });
   const [editingEducationId, setEditingEducationId] = useState(null);
 
   // --- Veri Yükleme ---
@@ -106,7 +106,7 @@ function Dashboard() {
         await createEducation(newEducation);
         alert('Eğitim bilgisi eklendi! ✨');
       }
-      setNewEducation({ schoolName: '', department: '', startDate: '', endDate: '', description: '', educationType: 'Üniversite' });
+      setNewEducation({ schoolName: '', schoolNameEn: '', department: '', departmentEn: '', startDate: '', endDate: '', description: '', descriptionEn: '', educationType: 'Üniversite' });
       setEditingEducationId(null);
       await loadEducations();
     } catch (err) { alert(`Hata: ${err.message}`); }
@@ -243,18 +243,25 @@ function Dashboard() {
                   <option value="Sertifika">📜 Sertifika / Kurs</option>
                   <option value="Diğer">📌 Diğer</option>
                 </select>
-                <input className={inputCls} placeholder="Okul / Kurum Adı" value={newEducation.schoolName} onChange={e => setNewEducation({ ...newEducation, schoolName: e.target.value })} required />
-                <input className={inputCls} placeholder="Bölüm / Program" value={newEducation.department} onChange={e => setNewEducation({ ...newEducation, department: e.target.value })} />
+                <div className="grid grid-cols-2 gap-2">
+                  <input className={inputCls} placeholder="Okul / Kurum Adı (TR)" value={newEducation.schoolName} onChange={e => setNewEducation({ ...newEducation, schoolName: e.target.value })} required />
+                  <input className={inputCls} placeholder="Okul / Kurum Adı (EN)" value={newEducation.schoolNameEn || ''} onChange={e => setNewEducation({ ...newEducation, schoolNameEn: e.target.value })} />
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <input className={inputCls} placeholder="Bölüm / Program (TR)" value={newEducation.department} onChange={e => setNewEducation({ ...newEducation, department: e.target.value })} />
+                  <input className={inputCls} placeholder="Bölüm / Program (EN)" value={newEducation.departmentEn || ''} onChange={e => setNewEducation({ ...newEducation, departmentEn: e.target.value })} />
+                </div>
                 <div className="grid grid-cols-2 gap-2">
                   <input className={inputCls} placeholder="Başlangıç (Örn: 2020)" value={newEducation.startDate} onChange={e => setNewEducation({ ...newEducation, startDate: e.target.value })} />
                   <input className={inputCls} placeholder="Bitiş (Örn: 2024)" value={newEducation.endDate} onChange={e => setNewEducation({ ...newEducation, endDate: e.target.value })} />
                 </div>
-                <textarea className={`${inputCls} h-24 resize-none`} placeholder="Açıklama / Başarılar (opsiyonel)" value={newEducation.description} onChange={e => setNewEducation({ ...newEducation, description: e.target.value })}></textarea>
+                <textarea className={`${inputCls} h-20 resize-none`} placeholder="Açıklama / Başarılar (TR)" value={newEducation.description} onChange={e => setNewEducation({ ...newEducation, description: e.target.value })}></textarea>
+                <textarea className={`${inputCls} h-20 resize-none`} placeholder="Açıklama / Başarılar (EN)" value={newEducation.descriptionEn || ''} onChange={e => setNewEducation({ ...newEducation, descriptionEn: e.target.value })}></textarea>
                 <button type="submit" className="w-full bg-[#8b5cf6] py-4 rounded-xl font-bold hover:scale-[1.01] transition-all">
                   {editingEducationId ? 'Eğitimi Güncelle' : 'Eğitimi Kaydet'}
                 </button>
                 {editingEducationId && (
-                  <button type="button" onClick={() => { setEditingEducationId(null); setNewEducation({ schoolName: '', department: '', startDate: '', endDate: '', description: '', educationType: 'Üniversite' }); }} className="w-full bg-white/10 py-4 rounded-xl font-bold hover:scale-[1.01] transition-all mt-2">İptal Et</button>
+                  <button type="button" onClick={() => { setEditingEducationId(null); setNewEducation({ schoolName: '', schoolNameEn: '', department: '', departmentEn: '', startDate: '', endDate: '', description: '', descriptionEn: '', educationType: 'Üniversite' }); }} className="w-full bg-white/10 py-4 rounded-xl font-bold hover:scale-[1.01] transition-all mt-2">İptal Et</button>
                 )}
               </form>
             </div>
@@ -271,7 +278,8 @@ function Dashboard() {
                         </div>
                         {ed.department && <p className="text-sm text-[#928b9c]">{ed.department}</p>}
                         <p className="text-xs text-[#7a7085] mt-1">{ed.startDate}{ed.endDate ? ` — ${ed.endDate}` : ''}</p>
-                        {ed.description && <p className="text-xs text-[#928b9c] mt-2">{ed.description}</p>}
+                        {ed.description && <p className="text-xs text-[#928b9c] mt-2 line-clamp-2">{ed.description}</p>}
+                        {ed.descriptionEn && <p className="text-xs text-[#8b5cf6]/60 mt-1 line-clamp-1 italic">{ed.descriptionEn}</p>}
                       </div>
                       <div className="flex gap-4 ml-4">
                         <button onClick={() => handleEditEducation(ed)} className="text-blue-500 text-xs opacity-0 group-hover:opacity-100 transition-all hover:underline">DÜZENLE</button>

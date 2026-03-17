@@ -32,6 +32,9 @@ public class EducationService {
         existingEducation.setEndDate(updatedEducation.getEndDate());
         existingEducation.setDescription(updatedEducation.getDescription());
         existingEducation.setEducationType(updatedEducation.getEducationType());
+        existingEducation.setSchoolNameEn(updatedEducation.getSchoolNameEn());
+        existingEducation.setDepartmentEn(updatedEducation.getDepartmentEn());
+        existingEducation.setDescriptionEn(updatedEducation.getDescriptionEn());
 
         return educationRepository.save(existingEducation);
     }

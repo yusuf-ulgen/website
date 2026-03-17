@@ -38,7 +38,7 @@ const translations = {
     nav: { about: "Hakkımda", skills: "Yetenekler", projects: "Projeler", contact: "İletişim ↗" },
     hero: { explore: "Projelerimi Keşfet", subtitle: "Dijital dünyada iz bırakan çözümler" },
     about: {
-      tag: "Hakkımda",
+      tag: "HAKKIMDA",
       title: "Mantık ve Estetiğin Mükemmel Uyumu",
       archTitle: "Sistem Mimarisi",
       archDesc: "Güvenli ve ölçeklenebilir altyapılar",
@@ -49,10 +49,10 @@ const translations = {
       softwareTitle: "Yazılım Mühendisliği",
       softwareDesc: "Karmaşık problemleri çözen, sürdürülebilir ve temiz kod prensipleriyle geliştirilen sistemler"
     },
-    skills: { tag: "Yetenekler", title: "Teknoloji Yığınım", noData: "[Henüz veri yok]" },
+    skills: { tag: "YETENEKLER", title: "Teknoloji Yığınım", noData: "[Henüz veri yok]" },
     projects: { title: "Öne Çıkan İşlerim", inspect: "Detayları İncele →" },
     contact: {
-      tag: "İletişim",
+      tag: "İLETİŞİM",
       title1: "Bir fikriniz mi var?",
       title2: "Birlikte inşa edelim",
       desc: "Yeni bir proje başlatmak için doğrudan ulaşabilirsiniz",
@@ -65,7 +65,7 @@ const translations = {
     nav: { about: "About", skills: "Skills", projects: "Projects", contact: "Contact ↗" },
     hero: { explore: "Explore My Work", subtitle: "Solutions that leave a mark in the digital world" },
     about: {
-      tag: "About Me",
+      tag: "ABOUT ME",
       title: "The Perfect Harmony of Logic and Aesthetics",
       archTitle: "System Architecture",
       archDesc: "Secure, scalable, and robust infrastructures",
@@ -76,10 +76,10 @@ const translations = {
       softwareTitle: "Software Engineering",
       softwareDesc: "Systems developed with sustainable and clean code principles to solve complex problems"
     },
-    skills: { tag: "Skills", title: "My Tech Stack", noData: "[No data yet]" },
+    skills: { tag: "SKILLS", title: "My Tech Stack", noData: "[No data yet]" },
     projects: { title: "Featured Work", inspect: "View Details →" },
     contact: {
-      tag: "Contact",
+      tag: "CONTACT",
       title1: "Have an idea?",
       title2: "Let's build it together",
       desc: "You can reach out directly to start a new project",
@@ -472,8 +472,8 @@ function Home() {
       {educations.length > 0 && (
         <section id="education" className="relative z-10 max-w-7xl mx-auto px-6 py-24">
           <div className="mb-16">
-            <h2 className="text-xs font-mono text-[#7a7085] tracking-[0.3em] uppercase mb-4 flex items-center gap-4">
-              {lang === 'EN' ? 'Experience' : 'Deneyim'} <span className="w-12 h-[1px] bg-[#7a7085]"></span>
+            <h2 className="text-xs font-mono text-[#7a7085] tracking-[0.3em] mb-4 flex items-center gap-4">
+              {lang === 'EN' ? 'EXPERIENCE' : 'DENEYİM'} <span className="w-12 h-[1px] bg-[#7a7085]"></span>
             </h2>
             <h3 className="text-3xl md:text-5xl font-extrabold tracking-tighter text-[#F8F7F9]">
               {lang === 'EN' ? 'Education & Experience' : 'Eğitim ve Deneyim'}
@@ -487,20 +487,30 @@ function Home() {
                   <div className="flex flex-wrap items-start justify-between gap-4 mb-3">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-1">
-                        <h4 className="text-xl font-bold text-[#F8F7F9]">{ed.schoolName}</h4>
+                        <h4 className="text-xl font-bold text-[#F8F7F9]">
+                          {lang === 'EN' && ed.schoolNameEn ? ed.schoolNameEn : ed.schoolName}
+                        </h4>
                         {ed.educationType && ed.educationType.toLowerCase() !== 'diğer' && ed.educationType.toLowerCase() !== 'other' && (
                           <span className="text-[10px] font-mono text-[#8b5cf6] bg-[#8b5cf6]/10 border border-[#8b5cf6]/20 px-2 py-0.5 rounded-full">
                             {ed.educationType}
                           </span>
                         )}
                       </div>
-                      {ed.department && <p className="text-[#8b5cf6] text-sm font-medium">{ed.department}</p>}
+                      {(ed.department || ed.departmentEn) && (
+                        <p className="text-[#8b5cf6] text-sm font-medium">
+                          {lang === 'EN' && ed.departmentEn ? ed.departmentEn : ed.department}
+                        </p>
+                      )}
                     </div>
                     <span className="text-xs font-mono text-[#7a7085] bg-white/5 border border-white/10 px-4 py-1.5 rounded-full whitespace-nowrap">
                       {ed.startDate}{ed.endDate ? ` — ${ed.endDate}` : ''}
                     </span>
                   </div>
-                  {ed.description && <p className="text-[#928b9c] text-sm leading-relaxed">{ed.description}</p>}
+                  {(ed.description || ed.descriptionEn) && (
+                    <p className="text-[#928b9c] text-sm leading-relaxed">
+                      {lang === 'EN' && ed.descriptionEn ? ed.descriptionEn : ed.description}
+                    </p>
+                  )}
                 </div>
               </div>
             ))}

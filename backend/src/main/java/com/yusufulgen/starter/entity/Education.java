@@ -28,4 +28,9 @@ public class Education {
     private String description; // Açıklama veya başarılar (İsteğe bağlı)
 
     private String educationType; // Tür: "Lise", "Üniversite", "Sertifika" vb.
+
+    private String schoolNameEn;
+    private String departmentEn;
+    @Column(columnDefinition = "TEXT")
+    private String descriptionEn;
 }
