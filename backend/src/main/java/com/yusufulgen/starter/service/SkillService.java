@@ -18,6 +18,9 @@ public class SkillService {
 
     @SuppressWarnings("null")
     public Skill saveSkill(Skill skill) {
+        if (skillRepository.existsByCategoryAndOrderIndex(skill.getCategory(), skill.getOrderIndex())) {
+            throw new RuntimeException("Bu kategoride bu sıra numarasıyla bir yetenek zaten mevcut!");
+        }
         return skillRepository.save(skill);
     }
 

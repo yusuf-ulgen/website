@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../services/api';
+import myLogo from '../assets/logo.png';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -37,7 +37,9 @@ function Login() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#6b21a8] rounded-full blur-[150px] opacity-[0.10] pointer-events-none"></div>
 
       <div className="w-full max-w-md bg-white/[0.02] border border-white/10 backdrop-blur-2xl p-10 rounded-3xl z-10 shadow-2xl animate-[fadeInUp_0.5s_ease-out]">
-        <h2 className="text-3xl font-black text-white tracking-tighter mb-2 text-center">YÜ.</h2>
+        <div className="flex justify-center mb-4">
+          <img src={myLogo} alt="Logo" className="h-12 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]" />
+        </div>
         <p className="text-[#8c8496] text-sm text-center mb-8 font-light uppercase tracking-widest">Yönetici Paneli</p>
 
         {error && <div className="bg-red-500/10 border border-red-500/20 text-red-500 text-xs py-3 px-4 rounded-xl mb-6 text-center">{error}</div>}

@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: yusufulgen-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      # Veritabanı bilgilerini buraya veya ortam değişkenlerine ekleyin
+      # - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/yusufulgen
+    restart: always
+
+  frontend:
+    build: ./frontend
+    container_name: yusufulgen-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: always

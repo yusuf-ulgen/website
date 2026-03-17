@@ -20,6 +20,10 @@ public class EmailService {
                         "E-Posta: " + senderEmail + "\n\n" +
                         "Mesaj İçeriği:\n" + content);
 
-        mailSender.send(message);
+        try {
+            mailSender.send(message);
+        } catch (Exception e) {
+            System.err.println("E-posta gönderilemedi: " + e.getMessage());
+        }
     }
 }

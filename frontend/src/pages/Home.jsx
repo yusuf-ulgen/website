@@ -87,6 +87,7 @@ function Home() {
   const [selectedProject, setSelectedProject] = useState(null);
 
   const [lang, setLang] = useState('TR');
+  const [isLangOpen, setIsLangOpen] = useState(false);
   const t = translations[lang];
 
   const [projects, setProjects] = useState([]);
@@ -228,13 +229,16 @@ function Home() {
             </div>
 
             <div className="flex items-center space-x-6 shrink-0">
-              <div className="group relative text-sm font-medium tracking-widest text-[#8c8496] transition-colors cursor-pointer flex items-center gap-2 py-2">
+              <div className="group relative text-sm font-medium tracking-widest text-[#8c8496] transition-colors cursor-pointer flex items-center gap-2 py-2"
+                onClick={() => setIsLangOpen(!isLangOpen)}
+                onMouseEnter={() => setIsLangOpen(true)}
+                onMouseLeave={() => setIsLangOpen(false)}>
                 <svg className="w-4 h-4 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
                 <span className="group-hover:text-white transition-colors uppercase">{lang}</span>
                 <span className="text-[10px] group-hover:text-white transition-colors">▼</span>
-                <div className="absolute top-[100%] right-0 mt-3 w-20 bg-[#0A0510]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col overflow-hidden transform group-hover:translate-y-0 translate-y-2">
-                  <div onClick={() => setLang('TR')} className={`px-4 py-3 transition-colors text-center text-xs font-bold uppercase ${lang === 'TR' ? 'text-[#8b5cf6] bg-white/5' : 'text-white hover:bg-white/10'}`}>TR</div>
-                  <div onClick={() => setLang('EN')} className={`px-4 py-3 transition-colors text-center text-xs font-bold uppercase ${lang === 'EN' ? 'text-[#8b5cf6] bg-white/5' : 'text-white hover:bg-white/10'}`}>EN</div>
+                <div className={`absolute top-[100%] right-0 mt-3 w-20 bg-[#0A0510]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl transition-all duration-300 flex flex-col overflow-hidden transform ${isLangOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible translate-y-2'}`}>
+                  <div onClick={(e) => { e.stopPropagation(); setLang('TR'); setIsLangOpen(false); }} className={`px-4 py-3 transition-colors text-center text-xs font-bold uppercase ${lang === 'TR' ? 'text-[#8b5cf6] bg-white/5' : 'text-white hover:bg-white/10'}`}>TR</div>
+                  <div onClick={(e) => { e.stopPropagation(); setLang('EN'); setIsLangOpen(false); }} className={`px-4 py-3 transition-colors text-center text-xs font-bold uppercase ${lang === 'EN' ? 'text-[#8b5cf6] bg-white/5' : 'text-white hover:bg-white/10'}`}>EN</div>
                 </div>
               </div>
               <a href="#contact" onClick={(e) => handleSmoothScroll(e, 'contact')} className="hidden sm:flex items-center gap-2 bg-white/5 border border-white/10 text-[#E2DCE7] text-sm font-medium py-2 px-6 rounded-full transition-all group backdrop-blur-sm cursor-pointer hover:bg-white/10">{t.nav.contact}</a>
@@ -253,7 +257,7 @@ function Home() {
           {t.hero.subtitle}
         </h1>
         <p className="text-[#928b9c] text-lg md:text-xl max-w-2xl mb-12 leading-relaxed font-light italic">
-          {lang === 'EN' ? "I design experiences that take your brand one step further digitally." : "Markanızı dijitalde bir adım öteye taşıyacak deneyimler tasarlıyorum."}
+          {lang === 'EN' ? "I design systems that take your brand one step further digitally." : "Markanızı dijitalde bir adım öteye taşıyacak sistemler tasarlıyorum."}
         </p>
         <div className="flex flex-wrap gap-4">
           <a href="#projects" onClick={(e) => handleSmoothScroll(e, 'projects')} className="inline-flex items-center justify-center px-10 py-3.5 text-[13px] font-medium text-white border border-white/10 rounded-full hover:bg-white/5 transition-all duration-300 cursor-pointer tracking-widest uppercase">
