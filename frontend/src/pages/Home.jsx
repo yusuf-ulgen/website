@@ -506,7 +506,9 @@ function Home() {
             </p>
           </div>
           <div>
-            <div className={`transition-all duration-700 ${contactStatus === 'success' ? 'opacity-0 scale-95 pointer-events-none hidden' : 'opacity-100 scale-100'}`}>
+          <div className="relative">
+            {/* FORM TABAKASI */}
+            <div className={`transition-all duration-[1200ms] ease-in-out transform ${contactStatus === 'success' ? 'opacity-0 scale-95 blur-sm pointer-events-none' : 'opacity-100 scale-100 blur-0'}`}>
               <form onSubmit={handleContactSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <input
@@ -550,8 +552,9 @@ function Home() {
               </form>
             </div>
 
-            {contactStatus === 'success' && (
-              <div className="bg-green-500/10 border border-green-500/20 rounded-3xl p-12 flex flex-col items-center text-center gap-4 animate-[fadeInUp_0.6s_ease-out]">
+            {/* BAŞARI TABAKASI (OVERLAY) */}
+            <div className={`absolute inset-0 flex items-center justify-center transition-all duration-[1200ms] ease-in-out transform ${contactStatus === 'success' ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-105 invisible pointer-events-none'}`}>
+              <div className="bg-green-500/10 border border-green-500/20 rounded-3xl p-12 flex flex-col items-center text-center gap-4 backdrop-blur-md w-full h-full justify-center">
                 <div className="text-5xl animate-[bounce_2s_infinite]">✅</div>
                 <h4 className="text-xl font-bold text-green-400">{lang === 'EN' ? 'Message sent!' : 'Mesajın iletildi!'}</h4>
                 <p className="text-[#928b9c] text-sm">{lang === 'EN' ? 'I\'ll get back to you as soon as possible.' : 'En kısa sürede geri dönüş yapacağım.'}</p>
@@ -559,7 +562,8 @@ function Home() {
                   {lang === 'EN' ? 'Send another' : 'Tekrar gönder'}
                 </button>
               </div>
-            )}
+            </div>
+          </div>
           </div>
         </div>
       </section>
