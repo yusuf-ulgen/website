@@ -39,13 +39,17 @@ public class MessageService {
         // 2. Veritabanına kaydet
         Message savedMessage = messageRepository.save(message);
 
-        // 3. Mail at
-        emailService.sendNotification(
-                savedMessage.getSenderName(),
-                savedMessage.getSenderEmail(),
-                savedMessage.getSubject(),
-                savedMessage.getContent()
-        );
+        // 3. Mail at (Hata olsa bile kullanıcıya "başarılı" dönsün)
+        try {
+            emailService.sendNotification(
+                    savedMessage.getSenderName(),
+                    savedMessage.getSenderEmail(),
+                    savedMessage.getSubject(),
+                    savedMessage.getContent()
+            );
+        } catch (Exception e) {
+            System.err.println("E-posta bildirimi gönderilemedi fakat mesaj kaydedildi: " + e.getMessage());
+        }
 
         // 4. Kaydedilen veriyi Response DTO'ya çevirip geri döndür
         return convertToResponse(savedMessage);
