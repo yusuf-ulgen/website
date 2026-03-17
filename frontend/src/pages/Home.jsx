@@ -228,7 +228,7 @@ function Home() {
           </div>
           <div className="relative z-10 flex items-center justify-between w-full">
             <a href="#top" onClick={(e) => handleSmoothScroll(e, 'top')} className="shrink-0 cursor-pointer flex items-center">
-              <img src={myLogo} alt="Logo" className="h-8 md:h-10 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-transform hover:scale-105" />
+              <img src={myLogo} alt="Logo" className="h-8 md:h-10 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-transform hover:scale-105 mix-blend-screen" />
             </a>
 
             <div className="hidden md:flex items-center space-x-10">

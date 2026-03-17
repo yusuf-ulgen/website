@@ -39,7 +39,7 @@ function Login() {
 
       <div className="w-full max-w-md bg-white/[0.02] border border-white/10 backdrop-blur-2xl p-10 rounded-3xl z-10 shadow-2xl animate-[fadeInUp_0.5s_ease-out]">
         <div className="flex justify-center mb-4">
-          <img src={myLogo} alt="Logo" className="h-12 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]" />
+          <img src={myLogo} alt="Logo" className="h-12 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] mix-blend-screen" />
         </div>
         <p className="text-[#8c8496] text-sm text-center mb-8 font-light uppercase tracking-widest">Yönetici Paneli</p>
 
