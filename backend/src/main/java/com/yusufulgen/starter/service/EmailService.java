@@ -12,11 +12,15 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
+    @org.springframework.beans.factory.annotation.Value("${spring.mail.username}")
+    private String mailFrom;
+
     @Async
     public void sendNotification(String senderName, String senderEmail, String subject, String content) {
-        System.out.println("E-posta gönderimi başlatılıyor... Alıcı: ysfulgen142@gmail.com");
+        System.out.println("DEBUG [" + Thread.currentThread().getName() + "]: E-posta gönderimi başlatılıyor... Alıcı: ysfulgen142@gmail.com | Kimden: " + mailFrom);
         SimpleMailMessage message = new SimpleMailMessage();
         
+        message.setFrom(mailFrom);
         message.setTo("ysfulgen142@gmail.com"); // Adminin e-posta adresi
         message.setSubject("Sitenizden Yeni Mesaj: " + subject);
         message.setText("Gönderen: " + senderName + "\n" +
