@@ -506,16 +506,7 @@ function Home() {
             </p>
           </div>
           <div>
-            {contactStatus === 'success' ? (
-              <div className="bg-green-500/10 border border-green-500/20 rounded-3xl p-12 flex flex-col items-center text-center gap-4">
-                <div className="text-5xl">✅</div>
-                <h4 className="text-xl font-bold text-green-400">{lang === 'EN' ? 'Message sent!' : 'Mesajın iletildi!'}</h4>
-                <p className="text-[#928b9c] text-sm">{lang === 'EN' ? 'I\'ll get back to you as soon as possible.' : 'En kısa sürede geri dönüş yapacağım.'}</p>
-                <button onClick={() => setContactStatus(null)} className="text-xs text-[#8b5cf6] hover:underline mt-2 cursor-pointer">
-                  {lang === 'EN' ? 'Send another' : 'Tekrar gönder'}
-                </button>
-              </div>
-            ) : (
+            <div className={`transition-all duration-700 ${contactStatus === 'success' ? 'opacity-0 scale-95 pointer-events-none hidden' : 'opacity-100 scale-100'}`}>
               <form onSubmit={handleContactSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <input
@@ -557,6 +548,17 @@ function Home() {
                   {contactStatus === 'sending' ? (lang === 'EN' ? 'Sending...' : 'Gönderiliyor...') : (lang === 'EN' ? 'Send Message' : 'Mesajı Gönder')}
                 </button>
               </form>
+            </div>
+
+            {contactStatus === 'success' && (
+              <div className="bg-green-500/10 border border-green-500/20 rounded-3xl p-12 flex flex-col items-center text-center gap-4 animate-[fadeInUp_0.6s_ease-out]">
+                <div className="text-5xl animate-[bounce_2s_infinite]">✅</div>
+                <h4 className="text-xl font-bold text-green-400">{lang === 'EN' ? 'Message sent!' : 'Mesajın iletildi!'}</h4>
+                <p className="text-[#928b9c] text-sm">{lang === 'EN' ? 'I\'ll get back to you as soon as possible.' : 'En kısa sürede geri dönüş yapacağım.'}</p>
+                <button onClick={() => setContactStatus(null)} className="text-xs text-[#8b5cf6] hover:underline mt-2 cursor-pointer">
+                  {lang === 'EN' ? 'Send another' : 'Tekrar gönder'}
+                </button>
+              </div>
             )}
           </div>
         </div>
