@@ -338,7 +338,13 @@ function Home() {
               <div className="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-[#50455e] mb-6 opacity-40 group-hover:opacity-100 transition-opacity">0{idx + 1}</div>
               <h4 className="text-xl font-bold text-[#E2DCE7] mb-3">{cat}</h4>
               <div className="flex flex-wrap gap-2">
-                {getSkillsByCategory(cat).length > 0 ? (
+                {isLoading ? (
+                  <div className="flex flex-wrap gap-2 w-full">
+                    {[1, 2, 3].map(i => (
+                      <div key={i} className="h-6 w-16 bg-white/5 rounded-full animate-pulse" />
+                    ))}
+                  </div>
+                ) : getSkillsByCategory(cat).length > 0 ? (
                   getSkillsByCategory(cat).map(s => (
                     <span key={s.id} className="text-xs font-medium text-[#c4b8d1] bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">{s.name}</span>
                   ))
