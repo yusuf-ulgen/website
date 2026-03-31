@@ -5,6 +5,7 @@ import com.yusufulgen.starter.repository.EducationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import com.yusufulgen.starter.dto.request.EducationReorderDto;
 
 @Service
 public class EducationService {
@@ -35,6 +36,9 @@ public class EducationService {
         existingEducation.setSchoolNameEn(updatedEducation.getSchoolNameEn());
         existingEducation.setDepartmentEn(updatedEducation.getDepartmentEn());
         existingEducation.setDescriptionEn(updatedEducation.getDescriptionEn());
+        if (updatedEducation.getOrderIndex() != null) {
+            existingEducation.setOrderIndex(updatedEducation.getOrderIndex());
+        }
 
         return educationRepository.save(existingEducation);
     }
@@ -42,5 +46,16 @@ public class EducationService {
     @SuppressWarnings("null")
     public void deleteEducation(Long id) {
         educationRepository.deleteById(id);
+    }
+
+    @SuppressWarnings("null")
+    public void reorderEducations(List<EducationReorderDto> requestList) {
+        for (EducationReorderDto request : requestList) {
+            Education education = educationRepository.findById(request.getId()).orElse(null);
+            if (education != null) {
+                education.setOrderIndex(request.getOrderIndex());
+                educationRepository.save(education);
+            }
+        }
     }
 }

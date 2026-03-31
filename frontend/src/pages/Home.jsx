@@ -137,7 +137,10 @@ function Home() {
         if (projData.success) setProjects(projData.data);
         if (skillData.success) setSkills(skillData.data);
         if (profData.success && profData.data.length > 0) setProfile(profData.data[0]);
-        if (eduData.success) setEducations(eduData.data);
+        if (eduData.success) {
+          const sortedEdu = eduData.data.sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0));
+          setEducations(sortedEdu);
+        }
         setIsLoading(false);
       } catch (error) {
         console.error('Veri çekme hatası:', error);
@@ -512,7 +515,7 @@ function Home() {
                       )}
                     </div>
                     <span className="text-xs font-mono text-[#7a7085] bg-white/5 border border-white/10 px-4 py-1.5 rounded-full whitespace-nowrap">
-                      {ed.startDate}{ed.endDate ? ` — ${ed.endDate}` : ''}
+                      {ed.startDate}{ed.endDate ? ` — ${ed.endDate === 'Devam Ediyor' && lang === 'EN' ? 'In Continue' : ed.endDate}` : ''}
                     </span>
                   </div>
                   {(ed.description || ed.descriptionEn) && (

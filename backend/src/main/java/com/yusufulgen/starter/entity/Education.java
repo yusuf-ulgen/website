@@ -33,4 +33,7 @@ public class Education {
     private String departmentEn;
     @Column(columnDefinition = "TEXT")
     private String descriptionEn;
+
+    @Column(columnDefinition = "integer default 0")
+    private Integer orderIndex;
 }

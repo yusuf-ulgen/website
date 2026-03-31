@@ -5,7 +5,7 @@ import {
   getSkills, createSkill, deleteSkill,
   getMessages, deleteMessage,
   getProfile, saveProfile,
-  getEducations, createEducation, updateEducation, deleteEducation,
+  getEducations, createEducation, updateEducation, deleteEducation, reorderEducations
 } from '../services/api';
 
 function Dashboard() {
@@ -22,8 +22,12 @@ function Dashboard() {
   const [editingProjectId, setEditingProjectId] = useState(null);
 
   const [newSkill, setNewSkill] = useState({ name: '', category: '', orderIndex: 0 });
-  const [newEducation, setNewEducation] = useState({ schoolName: '', schoolNameEn: '', department: '', departmentEn: '', startDate: '', endDate: '', description: '', descriptionEn: '', educationType: 'Üniversite' });
+  const [newEducation, setNewEducation] = useState({ schoolName: '', schoolNameEn: '', department: '', departmentEn: '', startDate: '', endDate: '', description: '', descriptionEn: '', educationType: 'Üniversite', orderIndex: 0 });
   const [editingEducationId, setEditingEducationId] = useState(null);
+  const [isEducationContinuing, setIsEducationContinuing] = useState(false);
+
+  const dragItem = useRef();
+  const dragOverItem = useRef();
 
   // --- Veri Yükleme ---
   const loadProjects = useCallback(async () => {
@@ -36,7 +40,7 @@ function Dashboard() {
     try { const d = await getMessages(); if (d.success) setMessages(d.data); } catch (e) { console.error(e); }
   }, []);
   const loadEducations = useCallback(async () => {
-    try { const d = await getEducations(); if (d.success) setEducations(d.data); } catch (e) { console.error(e); }
+    try { const d = await getEducations(); if (d.success) setEducations(d.data.sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0))); } catch (e) { console.error(e); }
   }, []);
   const loadProfile = useCallback(async () => {
     try {
@@ -103,11 +107,12 @@ function Dashboard() {
         await updateEducation(editingEducationId, newEducation);
         alert('Eğitim bilgisi başarıyla güncellendi! ✨');
       } else {
-        await createEducation(newEducation);
+        await createEducation({ ...newEducation, orderIndex: educations.length });
         alert('Eğitim bilgisi eklendi! ✨');
       }
-      setNewEducation({ schoolName: '', schoolNameEn: '', department: '', departmentEn: '', startDate: '', endDate: '', description: '', descriptionEn: '', educationType: 'Üniversite' });
+      setNewEducation({ schoolName: '', schoolNameEn: '', department: '', departmentEn: '', startDate: '', endDate: '', description: '', descriptionEn: '', educationType: 'Üniversite', orderIndex: 0 });
       setEditingEducationId(null);
+      setIsEducationContinuing(false);
       await loadEducations();
     } catch (err) { alert(`Hata: ${err.message}`); }
   };
@@ -115,11 +120,30 @@ function Dashboard() {
   const handleEditEducation = (ed) => {
     setNewEducation({ ...ed });
     setEditingEducationId(ed.id);
+    setIsEducationContinuing(ed.endDate === 'Devam Ediyor');
     document.querySelector('.flex-1.p-12').scrollTo({ top: 0, behavior: 'smooth' });
   };
   const handleDeleteEducation = async (id) => {
     if (!window.confirm('Eğitim bilgisini silmek istiyor musun?')) return;
     try { await deleteEducation(id); await loadEducations(); } catch (err) { alert(`Hata: ${err.message}`); }
+  };
+
+  const handleSortEducations = async () => {
+    const _educations = [...educations];
+    const draggedItemContent = _educations.splice(dragItem.current, 1)[0];
+    _educations.splice(dragOverItem.current, 0, draggedItemContent);
+    dragItem.current = null;
+    dragOverItem.current = null;
+
+    const updatedEducations = _educations.map((ed, i) => ({ ...ed, orderIndex: i }));
+    setEducations(updatedEducations);
+
+    const requestList = updatedEducations.map(ed => ({ id: ed.id, orderIndex: ed.orderIndex }));
+    try {
+      await reorderEducations(requestList);
+    } catch (err) {
+      alert(`Sıralama güncellenemedi: ${err.message}`);
+    }
   };
 
   const handleDeleteMessage = async (id) => {
@@ -254,7 +278,16 @@ function Dashboard() {
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <input className={inputCls} placeholder="Başlangıç (Örn: 2020)" value={newEducation.startDate} onChange={e => setNewEducation({ ...newEducation, startDate: e.target.value })} />
-                  <input className={inputCls} placeholder="Bitiş (Örn: 2024)" value={newEducation.endDate} onChange={e => setNewEducation({ ...newEducation, endDate: e.target.value })} />
+                  <div>
+                    <input className={inputCls} placeholder="Bitiş (Örn: 2024)" value={newEducation.endDate} onChange={e => setNewEducation({ ...newEducation, endDate: e.target.value })} disabled={isEducationContinuing} />
+                    <div className="flex items-center gap-2 mt-2 ml-1">
+                      <input type="checkbox" id="continuing" checked={isEducationContinuing} onChange={(e) => {
+                          setIsEducationContinuing(e.target.checked);
+                          setNewEducation({ ...newEducation, endDate: e.target.checked ? 'Devam Ediyor' : '' });
+                      }} className="w-4 h-4 accent-[#8b5cf6] cursor-pointer" />
+                      <label htmlFor="continuing" className="text-xs text-[#7a7085] cursor-pointer hover:text-white transition-colors">Hala devam ediyor musunuz?</label>
+                    </div>
+                  </div>
                 </div>
                 <textarea className={`${inputCls} h-20 resize-none`} placeholder="Açıklama / Başarılar (TR)" value={newEducation.description} onChange={e => setNewEducation({ ...newEducation, description: e.target.value })}></textarea>
                 <textarea className={`${inputCls} h-20 resize-none`} placeholder="Açıklama / Başarılar (EN)" value={newEducation.descriptionEn || ''} onChange={e => setNewEducation({ ...newEducation, descriptionEn: e.target.value })}></textarea>
@@ -262,15 +295,21 @@ function Dashboard() {
                   {editingEducationId ? 'Eğitimi Güncelle' : 'Eğitimi Kaydet'}
                 </button>
                 {editingEducationId && (
-                  <button type="button" onClick={() => { setEditingEducationId(null); setNewEducation({ schoolName: '', schoolNameEn: '', department: '', departmentEn: '', startDate: '', endDate: '', description: '', descriptionEn: '', educationType: 'Üniversite' }); }} className="w-full bg-white/10 py-4 rounded-xl font-bold hover:scale-[1.01] transition-all mt-2">İptal Et</button>
+                  <button type="button" onClick={() => { setEditingEducationId(null); setIsEducationContinuing(false); setNewEducation({ schoolName: '', schoolNameEn: '', department: '', departmentEn: '', startDate: '', endDate: '', description: '', descriptionEn: '', educationType: 'Üniversite', orderIndex: 0 }); }} className="w-full bg-white/10 py-4 rounded-xl font-bold hover:scale-[1.01] transition-all mt-2">İptal Et</button>
                 )}
               </form>
             </div>
             <div className="lg:col-span-2 space-y-4">
               <h2 className="text-lg font-bold mb-4 italic">Eğitim Bilgileri ({educations.length})</h2>
               {educations.length === 0 ? <p className="text-[#50455e]">Henüz eğitim bilgisi yok.</p> :
-                educations.map(ed => (
-                  <div key={ed.id} className="bg-white/[0.02] border border-white/5 p-6 rounded-2xl relative group hover:border-white/20 transition-all border-l-2 border-l-[#8b5cf6]">
+                educations.map((ed, index) => (
+                  <div key={ed.id} 
+                       draggable
+                       onDragStart={() => (dragItem.current = index)}
+                       onDragEnter={() => (dragOverItem.current = index)}
+                       onDragEnd={handleSortEducations}
+                       onDragOver={(e) => e.preventDefault()}
+                       className="bg-white/[0.02] border border-white/5 p-6 rounded-2xl relative group hover:border-white/20 transition-all border-l-2 border-l-[#8b5cf6] cursor-grab active:cursor-grabbing">
                     <div className="flex justify-between items-start">
                       <div>
                         <div className="flex items-center gap-2 mb-1">

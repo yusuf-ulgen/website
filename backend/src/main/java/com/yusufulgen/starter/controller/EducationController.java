@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import com.yusufulgen.starter.dto.request.EducationReorderDto;
 
 @RestController
 @RequestMapping("/api/v1/educations")
@@ -44,5 +45,12 @@ public class EducationController {
         educationService.deleteEducation(id);
         auditLogService.log("EDUCATION_DELETED", "Eğitim kaydı silindi, ID: " + id);
         return ResponseEntity.ok(ApiResponse.success("Eğitim bilgisi başarıyla silindi."));
+    }
+
+    @PostMapping("/reorder")
+    public ResponseEntity<ApiResponse<String>> reorderEducations(@RequestBody List<EducationReorderDto> request) {
+        educationService.reorderEducations(request);
+        auditLogService.log("EDUCATION_REORDERED", "Eğitim listesi yeniden sıralandı");
+        return ResponseEntity.ok(ApiResponse.success("Sıralama güncellendi."));
     }
 }

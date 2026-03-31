@@ -155,3 +155,13 @@ export const deleteEducation = async (id) => {
     });
     return handleResponse(res);
 };
+
+export const reorderEducations = async (requestList) => {
+    const res = await fetch(`${BASE_URL}/api/v1/educations/reorder`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(requestList),
+    });
+    return handleResponse(res);
+};
+
