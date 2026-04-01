@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import myLogo from '../assets/website_logo.png';
-import projectFinance from '../assets/project_finance.png';
-import projectArch from '../assets/project_arch.png';
-import projectWeb from '../assets/project_web.png';
-import projectTravel from '../assets/project_travel.png';
-import projectAi from '../assets/project_ai.png';
+// Eksik görseller Vercel build hatasına sebep olduğu için şimdilik yorum satırına alındı:
+// import projectFinance from '../assets/project_finance.png';
+// import projectArch from '../assets/project_arch.png';
+// import projectWeb from '../assets/project_web.png';
+// import projectTravel from '../assets/project_travel.png';
+// import projectAi from '../assets/project_ai.png';
 import { getProjects, getSkills, getProfile, getEducations, sendMessage } from '../services/api';
 
 const technologies = [
@@ -28,11 +29,11 @@ const technologies = [
 ];
 
 const projectMarqueeItems = [
-  { name: "Cüzdan - Finansal Yönetim", img: projectFinance, link: "#projects" },
-  { name: "Sistem Mimarisi Tasarımı", img: projectArch, link: "#about" },
-  { name: "Analytics Dashboard", img: projectWeb, link: "#projects" },
-  { name: "Travel Planner Mobile", img: projectTravel, link: "#projects" },
-  { name: "AI Code Assistant", img: projectAi, link: "#projects" }
+  { name: "Cüzdan - Finansal Yönetim", img: myLogo, link: "#projects" },
+  { name: "Sistem Mimarisi Tasarımı", img: myLogo, link: "#about" },
+  { name: "Analytics Dashboard", img: myLogo, link: "#projects" },
+  { name: "Travel Planner Mobile", img: myLogo, link: "#projects" },
+  { name: "AI Code Assistant", img: myLogo, link: "#projects" }
 ];
 
 // --- ÇEVİRİ SÖZLÜĞÜ (SABİT METİNLER) ---
