@@ -20,6 +20,7 @@ function App() {
         <Route path="/math-tower-privacy" element={<PrivacyPolicy appKey="math-tower" />} />
         <Route path="/todolist-privacy" element={<PrivacyPolicy appKey="todolist" />} />
         <Route path="/filmlist-privacy" element={<PrivacyPolicy appKey="filmlist" />} />
+        <Route path="/cuzdan-privacy" element={<PrivacyPolicy appKey="cuzdan" />} />
       </Routes>
     </Router>
   );

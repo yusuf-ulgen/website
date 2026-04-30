@@ -284,6 +284,40 @@ const privacyData = {
       <p><strong>Website:</strong> <a href="https://yusufulgen.com" target="_blank">yusufulgen.com</a><br/>
       <strong>Email:</strong> <a href="mailto:yusufulgenbusiness@gmail.com">yusufulgenbusiness@gmail.com</a></p>
     `
+  },
+  'cuzdan': {
+    title: 'Cüzdan',
+    date: 'May 1, 2026',
+    content: `
+      <p>This Privacy Policy explains how <strong>Yusuf Ülgen</strong> ("we," "us," or "the Developer") handles your information when you use the <strong>Cüzdan</strong> mobile application ("App").</p>
+      
+      <h2>1. Information We Collect</h2>
+      <h3>a. Personal Information</h3>
+      <p>We <strong>do not collect any personally identifiable information</strong>. The App does not require you to create an account, and we do not ask for your name, email address, or phone number.</p>
+      
+      <h3>b. Financial and Usage Data</h3>
+      <p>All your financial data, transactions, and wallet balances are stored <strong>locally on your device</strong>. The App uses Android's encrypted storage mechanisms (Security Crypto) and local databases (Room) to ensure your data remains completely private and secure on your device. We do not transmit, sync, or store your financial data on our servers.</p>
+      
+      <h2>2. Device Features and Permissions</h2>
+      <ul>
+        <li><strong>Biometric Authentication:</strong> The App may use your device's biometric hardware (fingerprint or face unlock) to secure your data. Biometric data is processed securely by your device's operating system and is <strong>never</strong> accessible to the App or the Developer.</li>
+        <li><strong>Internet Access:</strong> The App requires internet access solely to fetch live financial data (such as exchange rates or asset prices) from third-party APIs. No personal data is sent during these requests.</li>
+      </ul>
+      
+      <h2>3. Third-Party Services</h2>
+      <p>To provide accurate financial data and core functionality, the App may connect to third-party APIs (e.g., currency exchange rate providers). Furthermore, the App utilizes <strong>Google Play Services</strong> for core Android functionalities.</p>
+      
+      <h2>4. Data Security</h2>
+      <p>Your financial privacy is our top priority. We use local encryption methods provided by the Android ecosystem to secure your stored information. Since your data is kept exclusively on your device, you are responsible for maintaining the security of your device and ensuring it is backed up safely.</p>
+      
+      <h2>5. Changes to This Privacy Policy</h2>
+      <p>We may update our Privacy Policy from time to time. Any changes will be posted on this page.</p>
+      
+      <h2>6. Contact Us</h2>
+      <p>If you have any questions or suggestions regarding this Privacy Policy, please do not hesitate to contact us:</p>
+      <p><strong>Website:</strong> <a href="https://yusufulgen.com" target="_blank">yusufulgen.com</a><br/>
+      <strong>Email:</strong> <a href="mailto:yusufulgenbusiness@gmail.com">yusufulgenbusiness@gmail.com</a></p>
+    `
   }
 };
 
