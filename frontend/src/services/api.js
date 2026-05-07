@@ -14,8 +14,15 @@ const getAuthHeaders = () => {
 };
 
 const handleResponse = async (res) => {
-    const data = await res.json();
-    if (!res.ok) throw new Error(data?.errors?.[0] || `HTTP ${res.status}`);
+    let data;
+    const contentType = res.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+        data = await res.json();
+    } else {
+        data = { errors: [`Sunucudan beklenen JSON yanıtı gelmedi (HTTP ${res.status})`] };
+    }
+    
+    if (!res.ok) throw new Error(data?.errors?.[0] || data?.message || `HTTP ${res.status}`);
     return data;
 };
 
